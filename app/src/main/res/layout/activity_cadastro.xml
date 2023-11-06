@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".CadastroActivity">
+
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="48dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/mosca">
+
+    </ImageView>
+
+    <EditText
+        android:id="@+id/editNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="nome"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="16dp"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/editEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="email"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="16dp"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/editSenha1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="senha"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="16dp"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/editSenha2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="senha"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="32dp"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btnSalvar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="center"
+        android:text="Salvar" />
+
+</LinearLayout>
