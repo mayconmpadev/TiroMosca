@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "771617366396",
+    "project_id": "jogo-tiro-mosca-fd348",
+    "storage_bucket": "jogo-tiro-mosca-fd348.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771617366396:android:847b794799bca9697a44f9",
+        "android_client_info": {
+          "package_name": "com.mpasistemas.tiromosca"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDD9xv7OVxK8wnxZoGWAt5iRyaD94ZG--s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -45,6 +45,7 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         }
 
         binding.teclado.btnSalvar.setOnClickListener {
+            binding.qtdJogadas.text = (lista.size + 1).toString()
             jogada = Jogadas()
             jogada.jogada = binding.textJogada.text.toString()
             binding.cronometro.isCountDown = true

@@ -1,5 +1,6 @@
 package com.mpasistemas.tiromosca
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -21,6 +22,11 @@ class LoginActivity : AppCompatActivity() {
                 Util.numeroAleatorio(),
                 Toast.LENGTH_SHORT
             ).show()
+        }
+
+        binding.textCadastro.setOnClickListener(){
+           val intent = Intent(this,CadastroActivity::class.java)
+            startActivity(intent)
         }
 
     }

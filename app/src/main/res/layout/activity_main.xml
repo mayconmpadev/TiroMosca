@@ -17,6 +17,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/llTorneio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="32dp"
@@ -44,6 +45,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llPraticar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
@@ -80,6 +82,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/llAjuda"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="32dp"
@@ -109,6 +112,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llDuelo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
@@ -134,4 +138,13 @@
 
         </LinearLayout>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Login">
+
+    </Button>
 </LinearLayout>
