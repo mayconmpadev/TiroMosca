@@ -41,6 +41,8 @@ class CadastroActivity : AppCompatActivity() {
                 binding.editSenha2
             )
         ) {
+            autenticacao.createUserWithEmailAndPassword(binding.editEmail.text.toString(), binding.editSenha1.text.toString())
+            autenticacao.signOut()
             exibirMensagem("ok")
 
         }

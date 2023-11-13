@@ -6,7 +6,9 @@ import android.os.CountDownTimer
 import android.os.SystemClock
 import android.text.Editable
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.View.OnClickListener
+import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -37,10 +39,17 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         binding.teclado.btn7.setOnClickListener(this)
         binding.teclado.btn8.setOnClickListener(this)
         binding.teclado.btn9.setOnClickListener(this)
-        binding.textNumeroAleatorio.text = numAleatorio
+
+        val bundle = intent.extras//todos os parâmetros
+        if (bundle != null) {
+            val email = bundle.getString("email")
+
+            Toast.makeText(this, email, Toast.LENGTH_LONG).show()
+
+
+        }
 
         binding.teclado.btnApagar.setOnClickListener {
-            Toast.makeText(this, binding.cronometro.text, Toast.LENGTH_SHORT).show()
             apagar()
         }
 
@@ -80,7 +89,7 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
 
     fun apagar() {
         binding.textJogada.text = ""
-        binding.teclado.btnSalvar.visibility = View.INVISIBLE
+        binding.teclado.btnSalvar.visibility = INVISIBLE
         for (i in apertados) {
             i.isEnabled = true
             i.setBackgroundResource(R.drawable.bg_redondo)
@@ -96,8 +105,9 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
             }
 
         }
-
-        Toast.makeText(this, moscas, Toast.LENGTH_SHORT).show()
+        if (moscas.equals("mmmm")) {
+            binding.textNumeroAleatorio.text = binding.textJogada.text
+        }
         this.jogada.mosca = moscas
 
         tiro(jogada)
