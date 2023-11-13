@@ -1,6 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+// plugin para o Firebase
+    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -34,7 +37,7 @@ android {
         jvmTarget = "1.8"
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 }
@@ -48,4 +51,19 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+// Dependencia de atualizacão automatica firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
+// Dependencia do firebase analytics
+    implementation("com.google.firebase:firebase-analytics")
+
+    // Dependencia do banco de dados firestore do firebase
+    implementation("com.google.firebase:firebase-firestore-ktx")
+
+    // Dependencia do starage do firebase
+    implementation("com.google.firebase:firebase-storage-ktx")
+
+    // Dependencia do autenticação firebase
+    implementation("com.google.firebase:firebase-auth-ktx")
+
+
 }
