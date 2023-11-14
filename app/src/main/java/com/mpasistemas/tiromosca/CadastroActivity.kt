@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mpasistemas.tiromosca.databinding.ActivityCadastroBinding
 
 class CadastroActivity : AppCompatActivity() {
@@ -14,6 +15,12 @@ class CadastroActivity : AppCompatActivity() {
 
     private val autenticacao by lazy {
         FirebaseAuth.getInstance()
+
+    }
+
+    private val database by lazy {
+        FirebaseFirestore.getInstance()
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +49,7 @@ class CadastroActivity : AppCompatActivity() {
             )
         ) {
             autenticacao.createUserWithEmailAndPassword(binding.editEmail.text.toString(), binding.editSenha1.text.toString())
+
             autenticacao.signOut()
             exibirMensagem("ok")
 
