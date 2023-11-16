@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         if (autenticacao.currentUser != null) {
-            val intent = Intent(this, PraticarActivity::class.java)
-            startActivity(intent)
+          //  val intent = Intent(this, PraticarActivity::class.java)
+          //  startActivity(intent)
         }
         binding.llPraticar.setOnClickListener() {
             val intent = Intent(this, PraticarActivity::class.java)

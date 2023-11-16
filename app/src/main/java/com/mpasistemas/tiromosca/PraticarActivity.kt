@@ -4,19 +4,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.SystemClock
-import android.text.Editable
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.OnClickListener
-import android.view.View.VISIBLE
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.mpasistemas.tiromosca.R.style.button_apertado
 import com.mpasistemas.tiromosca.databinding.ActivityPraticarBinding
 import com.mpasistemas.tiromosca.modelo.Jogadas
+import com.mpasistemas.tiromosca.util.Util
 
 class PraticarActivity : AppCompatActivity(), OnClickListener {
     private lateinit var binding: ActivityPraticarBinding

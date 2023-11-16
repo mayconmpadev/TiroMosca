@@ -1,12 +1,15 @@
 package com.mpasistemas.tiromosca
 
+import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mpasistemas.tiromosca.databinding.ActivityCadastroBinding
+import com.mpasistemas.tiromosca.modelo.Usuario
 
 class CadastroActivity : AppCompatActivity() {
     private val binding by lazy {
@@ -36,7 +39,7 @@ class CadastroActivity : AppCompatActivity() {
     }
 
     fun verificar(editText: EditText): Boolean {
-        if ( !editText.text.toString().isNotEmpty()){
+        if (!editText.text.toString().isNotEmpty()) {
             exibirMensagem("o campo $editText.hint.toString() nao ")
         }
 
@@ -48,16 +51,38 @@ class CadastroActivity : AppCompatActivity() {
                 binding.editSenha2
             )
         ) {
-            autenticacao.createUserWithEmailAndPassword(binding.editEmail.text.toString(), binding.editSenha1.text.toString())
+            autenticacao.createUserWithEmailAndPassword(
+                binding.editEmail.text.toString(),
+                binding.editSenha1.text.toString()
+            ).addOnSuccessListener { user ->
 
-            autenticacao.signOut()
-            exibirMensagem("ok")
+                if (user != null) {
+                    salvarDados(user.user!!.uid)
+                }
+
+
+            }
+
 
         }
     }
 
     private fun exibirMensagem(texto: String) {
         Toast.makeText(this, texto, Toast.LENGTH_LONG).show()
+    }
+
+    fun salvarDados(id: String) {
+        val usuario = Usuario()
+        usuario.id = id
+        usuario.nome = binding.editNome.text.toString()
+        usuario.data = "15/11/2023"
+        usuario.status = "online"
+        database.collection("usuarios").document(id).set(usuario)
+            .addOnSuccessListener {
+                exibirMensagem("salvo com sucesso")
+                autenticacao.signOut()
+            }
+            .addOnFailureListener { e -> exibirMensagem("erro: ${e.message}") }
     }
 
 }

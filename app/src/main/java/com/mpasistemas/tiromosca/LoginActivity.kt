@@ -4,13 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
-import android.view.View
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 
-import androidx.core.text.set
 import com.google.firebase.auth.FirebaseAuth
 import com.mpasistemas.tiromosca.databinding.ActivityLoginBinding
+import com.mpasistemas.tiromosca.util.Util
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -22,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+Util.textoNegrito("teste de texto +negrito+ linha", binding.textCadastro,null)
         binding.btnEntrar.setOnClickListener {
             logar(binding.editEmail.text, binding.editSenha.text)
         }
