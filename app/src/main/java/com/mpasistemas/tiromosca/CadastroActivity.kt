@@ -10,6 +10,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mpasistemas.tiromosca.databinding.ActivityCadastroBinding
 import com.mpasistemas.tiromosca.modelo.Usuario
+import com.mpasistemas.tiromosca.util.Timestamp
+import com.mpasistemas.tiromosca.util.Util
 
 class CadastroActivity : AppCompatActivity() {
     private val binding by lazy {
@@ -75,7 +77,7 @@ class CadastroActivity : AppCompatActivity() {
         val usuario = Usuario()
         usuario.id = id
         usuario.nome = binding.editNome.text.toString()
-        usuario.data = "15/11/2023"
+        usuario.data = Timestamp.getUnixTimestamp().toString()
         usuario.status = "online"
         database.collection("usuarios").document(id).set(usuario)
             .addOnSuccessListener {

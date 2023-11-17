@@ -21,7 +21,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-Util.textoNegrito("teste de texto +negrito+ linha", binding.textCadastro,null)
         binding.btnEntrar.setOnClickListener {
             logar(binding.editEmail.text, binding.editSenha.text)
         }
