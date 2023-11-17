@@ -10,6 +10,7 @@ import android.view.View.OnClickListener
 import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mpasistemas.tiromosca.adapter.jogadasAdapter
 import com.mpasistemas.tiromosca.databinding.ActivityPraticarBinding
 import com.mpasistemas.tiromosca.modelo.Jogadas
 import com.mpasistemas.tiromosca.util.Util

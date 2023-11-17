@@ -12,7 +12,7 @@ open class Timestamp {
      */
 
     companion object{
-        open  fun getUnixTimestamp(): Long {
+        fun getUnixTimestamp(): Long {
             // create a calendar
             val cal = Calendar.getInstance()
             return cal.timeInMillis / 1000
@@ -25,13 +25,13 @@ open class Timestamp {
          * @return Retorna uma string contendo a data e hora no formato desejado
          */
 
-        open fun getFormatedDateTime(timestamp: Long, format: String?): String? {
+        fun getFormatedDateTime(timestamp: Long, format: String?): String? {
             val cal = Calendar.getInstance(Locale.ENGLISH)
             cal.timeInMillis = timestamp * 1000
             return DateFormat.format(format, cal).toString()
         }
 
-        open fun convert(data: String): String? {
+        fun convert(data: String): String? {
             val calendar = Calendar.getInstance()
             calendar[Calendar.YEAR] = data.substring(6, 10).toInt()
             calendar[Calendar.MONTH] = data.substring(3, 5).toInt() - 1
