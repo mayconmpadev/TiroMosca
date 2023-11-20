@@ -8,6 +8,6 @@ data class Usuario(
     var status: String = "",
     var vitorias: Int = 0,
     var derrotas: Int = 0,
-    var pontuacao: Int = 0,
+    var pontuacao: Double = 0.0,
     var partidas: Int = 0,
 )

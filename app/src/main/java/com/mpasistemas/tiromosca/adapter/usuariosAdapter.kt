@@ -14,14 +14,18 @@ import com.mpasistemas.tiromosca.modelo.Usuario
 class usuariosAdapter (private val usuarioList : List<Usuario>) : Adapter<usuariosAdapter.MyViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater =  LayoutInflater.from(parent.context)
-     val itemView = ItemUsuarioBinding.inflate(layoutInflater,parent, false)
+     val itemView = ItemUsuarioBinding.inflate(layoutInflater,parent,false)
         return MyViewHolder(itemView)
     }
 
     override fun getItemCount() = usuarioList.size
 
-    override fun onBindViewHolder(holder: usuariosAdapter.MyViewHolder, position: Int) {
-        TODO("Not yet implemented")
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val usuario  = usuarioList[position]
+        holder.binding.textUsuario.text = usuario.nome
+        if (usuario.status == "online"){
+            holder.binding.imageStatus.setImageResource(R.drawable.icone_disponivel)
+        }
     }
    inner class MyViewHolder(val binding: ItemUsuarioBinding) : RecyclerView.ViewHolder(binding.root) {
 

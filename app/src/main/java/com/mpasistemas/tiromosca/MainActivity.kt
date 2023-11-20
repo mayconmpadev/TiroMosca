@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.llPraticar.setOnClickListener() {
-            val intent = Intent(this, PraticarActivity::class.java)
+        binding.llDuelo.setOnClickListener() {
+            val intent = Intent(this, ListaUsuariosActivity::class.java)
             startActivity(intent)
         }
 
