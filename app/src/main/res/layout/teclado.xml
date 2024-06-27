@@ -2,14 +2,13 @@
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
     android:id="@+id/root"
     android:orientation="vertical">
 
     <TableRow
         android:layout_marginBottom="13dp"
         android:gravity="center"
-        android:padding="3dp">
+        >
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn0"
@@ -75,7 +74,7 @@
 
     <TableRow
         android:gravity="center"
-        android:padding="3dp">
+        >
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn5"
