@@ -28,11 +28,12 @@
         android:id="@+id/editSenha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="senha"
         android:layout_marginHorizontal="32dp"
+        android:drawableRight="@drawable/baseline_visibility_off_24"
         android:layout_marginTop="32dp"
-
-        android:inputType="textPassword" />
+        android:hint="senha"
+        android:inputType="textPassword"
+        />
 
     <TextView
         android:id="@+id/textRecuperarSenha"

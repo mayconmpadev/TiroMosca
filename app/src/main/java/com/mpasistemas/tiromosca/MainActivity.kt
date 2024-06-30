@@ -21,6 +21,9 @@ class MainActivity : AppCompatActivity() {
         if (autenticacao.currentUser != null) {
           //  val intent = Intent(this, PraticarActivity::class.java)
           //  startActivity(intent)
+            binding.btnLogin.text = "sair"
+        }else{
+            binding.btnLogin.text = "login"
         }
         binding.llPraticar.setOnClickListener() {
             val intent = Intent(this, PraticarActivity::class.java)
@@ -43,8 +46,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener() {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            if (autenticacao.currentUser != null) {
+                //  val intent = Intent(this, PraticarActivity::class.java)
+                //  startActivity(intent)
+                autenticacao.signOut()
+                binding.btnLogin.text = "login"
+            }else{
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            }
+
         }
     }
 }

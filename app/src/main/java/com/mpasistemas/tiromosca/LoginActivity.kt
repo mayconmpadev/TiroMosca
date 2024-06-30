@@ -30,6 +30,11 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.textRecuperarSenha.setOnClickListener() {
+            val intent = Intent(this, RedefirSenha::class.java)
+            startActivity(intent)
+        }
+
 
     }
 
@@ -42,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, PraticarActivity::class.java)
             intent.putExtra("email", sucesso.user?.email)
             startActivity(intent)
+            finish()
         }.addOnFailureListener { exception ->
             Toast.makeText(this, exception.message, LENGTH_LONG).show()
         }
