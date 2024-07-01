@@ -25,7 +25,7 @@ class ListaUsuariosActivity : AppCompatActivity() {
         setContentView(binding.root)
         recuperaUsuarios()
         binding.rvUsuarios.layoutManager = LinearLayoutManager(this)
-        binding.rvUsuarios.adapter = usuariosAdapter(lista)
+        binding.rvUsuarios.adapter = usuariosAdapter()
     }
 
     fun recuperaUsuarios() {

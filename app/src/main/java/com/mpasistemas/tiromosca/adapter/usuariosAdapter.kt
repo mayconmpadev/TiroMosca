@@ -1,5 +1,6 @@
 package com.mpasistemas.tiromosca.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,23 +12,37 @@ import com.mpasistemas.tiromosca.R
 import com.mpasistemas.tiromosca.databinding.ItemUsuarioBinding
 import com.mpasistemas.tiromosca.modelo.Usuario
 
-class usuariosAdapter (private val usuarioList : List<Usuario>) : Adapter<usuariosAdapter.MyViewHolder>(){
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val layoutInflater =  LayoutInflater.from(parent.context)
-     val itemView = ItemUsuarioBinding.inflate(layoutInflater,parent,false)
-        return MyViewHolder(itemView)
+class usuariosAdapter  (val context: Context, var usuarioList: ArrayList<Usuario>,
+                                     var clickCategoria: ClickCategoria, var ultimoItemExibidoRecyclerView: UltimoItemExibidoRecyclerView):
+    RecyclerView.Adapter<usuariosAdapter.ViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val itemView = ItemUsuarioBinding.inflate(layoutInflater, parent, false)
+        return ViewHolder(itemView)
     }
 
     override fun getItemCount() = usuarioList.size
 
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val usuario  = usuarioList[position]
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val usuario = usuarioList[position]
         holder.binding.textUsuario.text = usuario.nome
-        if (usuario.status == "online"){
+        if (usuario.status == "online") {
             holder.binding.imageStatus.setImageResource(R.drawable.icone_disponivel)
         }
     }
-   inner class MyViewHolder(val binding: ItemUsuarioBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    //interface
+    interface ClickCategoria {
+        fun clickCategoria(usuario: Usuario)
+    }
+
+    interface UltimoItemExibidoRecyclerView {
+        fun ultimoItemExibidoRecyclerView(isExibido: Boolean)
 
     }
+      inner class ViewHolder(val binding: ItemUsuarioBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+
+        }
+
 }

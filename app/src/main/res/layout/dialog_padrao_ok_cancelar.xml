@@ -35,7 +35,7 @@
 
         <android.widget.Button
             android:id="@+id/dialog_padrao_btn_esquerda"
-            style="@style/Button"
+            style="@style/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancelar" />
@@ -51,7 +51,7 @@
             android:id="@+id/dialog_padrao_btn_direita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Button"
+            style="@style/button"
             android:text="Ok" />
 
     </LinearLayout>
