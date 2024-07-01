@@ -4,4 +4,43 @@
     <color name="white">#FFFFFFFF</color>
     <color name="cinza">#989797</color>
     <color name="red">#8DE61212</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="color_cinza">#E4E4E4</color>
+    <color name="color_cinza_escuro">#9E9E9E</color>
+    <color name="color_cinza_claro">#F6F6F6</color>
+    <color name="color_verde">#66BB6A</color>
+    <color name="color_verde_claro">#81C784</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="preto">#FF000000</color>
+    <color name="branco">#FFFFFFFF</color>
+    <color name="broze">#8C7853</color>
+    <color name="prata">#C0C0C0</color>
+    <color name="ouro">#ffd700</color>
+    <color name="colorIconeOnBnv">#FC6E20</color>
+    <color name="colorIconeOffBnv">#A59D98</color>
+    <color name="color_delete">#F44336</color>
+    <color name="color_boleto">#59F44336</color>
+    <color name="color_laranja">#FC6E20</color>
+    <color name="color_fundo">#99627154</color>
+    <color name="color_recibo">#ECDEAA</color>
+    <color name="transparente">#00FFFFFF</color>
+
+
+    <color name="grey_10">#e6e6e6</color>
+    <color name="colorOverlayPrimary">#998FE63E</color>
+    <color name="grey_3">#f7f7f7</color>
+    <color name="grey_80">#37474F</color>
+    <color name="grey_40">#999999</color>
+    <color name="colorPrice">@color/colorPrimaryDark</color>
+    <color name="colorPrimaryDark">#88D63F</color>
+    <color name="colorPrimary">#8FE63E</color>
+    <color name="grey_60">#666666</color>
+    <color name="grey_5">#f2f2f2</color>
+    <color name="colorBackground">#f2f2f2</color>
+
+    <color name="colorPrimaryLight">#94F03E</color>
+    <color name="overlay_dark_5">#0F000000</color>
 </resources>

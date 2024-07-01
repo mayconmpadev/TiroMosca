@@ -25,13 +25,8 @@ class LoginActivity : AppCompatActivity() {
             logar(binding.editEmail.text, binding.editSenha.text)
         }
 
-        binding.textCadastro.setOnClickListener() {
+        binding.llCadastroUsuario.setOnClickListener() {
             val intent = Intent(this, CadastroActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.textRecuperarSenha.setOnClickListener() {
-            val intent = Intent(this, RedefirSenha::class.java)
             startActivity(intent)
         }
 

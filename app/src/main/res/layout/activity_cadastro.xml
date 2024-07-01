@@ -24,7 +24,8 @@
         android:hint="nome"
         android:layout_marginHorizontal="32dp"
         android:layout_marginBottom="16dp"
-        android:inputType="textEmailAddress" />
+        android:inputType="textCapSentences"
+       />
 
     <EditText
         android:id="@+id/editEmail"
