@@ -8,15 +8,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.mpasistemas.tiromosca.R
-import com.mpasistemas.tiromosca.databinding.ItemJogadasBinding
 import com.mpasistemas.tiromosca.modelo.Jogadas
 
-class jogadasAdapter(private val jogadasList: List<Jogadas>) : Adapter<jogadasAdapter.MyViewHolder>() {
+class jogadasAdapter(
+    private val jogadasList: List<Jogadas>
+) : Adapter<jogadasAdapter.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-          val itemView = ItemJogadasBinding.inflate(layoutInflater, parent, false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_jogadas, parent, false)
         return MyViewHolder(itemView)
     }
 
@@ -24,9 +25,9 @@ class jogadasAdapter(private val jogadasList: List<Jogadas>) : Adapter<jogadasAd
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val jogada = jogadasList[position]
-        holder.binding.textJogadah.text = jogada.jogada
+        holder.textJogada.text = jogada.jogada
         val lista =
-            listOf(holder.binding.image1, holder.binding.image2, holder.binding.image3, holder.binding.image4)
+            listOf(holder.imagem1, holder.imagem2, holder.imagem3, holder.imagem4)
         for (i in 0..<jogada.mosca.length) {
             if (jogada.mosca[i] == 'm') {
                 lista[i].setImageResource(R.drawable.mosca)
@@ -38,7 +39,11 @@ class jogadasAdapter(private val jogadasList: List<Jogadas>) : Adapter<jogadasAd
     }
 
 
-   inner class MyViewHolder(val binding: ItemJogadasBinding) : ViewHolder(binding.root) {
-
+    class MyViewHolder(itemView: View) : ViewHolder(itemView) {
+        val textJogada: TextView = itemView.findViewById(R.id.textJogadah)
+        val imagem1: ImageView = itemView.findViewById(R.id.image1)
+        val imagem2: ImageView = itemView.findViewById(R.id.image2)
+        val imagem3: ImageView = itemView.findViewById(R.id.image3)
+        val imagem4: ImageView = itemView.findViewById(R.id.image4)
     }
 }

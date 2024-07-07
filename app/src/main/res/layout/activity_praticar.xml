@@ -30,20 +30,22 @@
         <TextView
             android:id="@+id/textJogada"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="25sp">
+            android:textSize="25sp"
+            android:layout_height="wrap_content">
 
         </TextView>
 
-        <TextView
-            android:id="@+id/timerTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/red"
-            android:textSize="18sp"
-            android:text="00:00:00.000" />
+       <Chronometer
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textColor="@color/red"
+           tools:targetApi="TIRAMISU"
+           android:textSize="18sp"
+           android:id="@+id/cronometro">
+
+       </Chronometer>
 
 
     </LinearLayout>
@@ -62,20 +64,20 @@
         </TextView>
 
         <TextView
-            android:id="@+id/qtdJogadas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/qtdJogadas"
             android:text="0 ">
 
         </TextView>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvJogadas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:listitem="@layout/item_jogadas">
+        android:id="@+id/rvJogadas"
+        tools:listitem="@layout/item_jogadas"
+        android:layout_weight="1">
 
     </androidx.recyclerview.widget.RecyclerView>
 
