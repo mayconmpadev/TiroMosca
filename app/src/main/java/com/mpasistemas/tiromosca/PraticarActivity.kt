@@ -1,9 +1,10 @@
 package com.mpasistemas.tiromosca
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.SystemClock
+
 import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.OnClickListener
@@ -17,11 +18,16 @@ import com.mpasistemas.tiromosca.util.Util
 
 class PraticarActivity : AppCompatActivity(), OnClickListener {
     private lateinit var binding: ActivityPraticarBinding
-    private lateinit var timer: CountDownTimer
+    private lateinit var countDownTimer: CountDownTimer
+    private var repeatTimer: CountDownTimer? = null
+    private var timeLeftInMillis: Long = 200000 // 10 minutos em milissegundos
+    private var tenSecondsWarningShown = false
+    private var timerRunning = false
     var apertados: ArrayList<Button> = ArrayList()
     val numAleatorio: String = Util.numeroAleatorio()
     var lista: ArrayList<Jogadas> = ArrayList()
     lateinit var jogada: Jogadas
+    private var mediaPlayer: MediaPlayer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPraticarBinding.inflate(layoutInflater)
@@ -51,17 +57,20 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         }
 
         binding.teclado.btnSalvar.setOnClickListener {
+           // playSound(R.raw.bip_2)
+            if (!timerRunning) {
+                startTimer()
+            }
             binding.qtdJogadas.text = (lista.size + 1).toString()
             jogada = Jogadas()
             jogada.jogada = binding.textJogada.text.toString()
-            binding.cronometro.isCountDown = true
-            binding.cronometro.base = SystemClock.elapsedRealtime() + 300000
-            binding.cronometro.start()
             mosca(binding.textJogada.text.toString())
             apagar()
         }
         binding.rvJogadas.layoutManager = LinearLayoutManager(this)
         binding.rvJogadas.adapter = jogadasAdapter(lista)
+
+        updateCountDownText()
 
     }
 
@@ -103,7 +112,9 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
 
         }
         if (moscas.equals("mmmm")) {
+            pauseTimer()
             binding.textNumeroAleatorio.text = binding.textJogada.text
+
         }
         this.jogada.mosca = moscas
 
@@ -125,6 +136,73 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         this.jogada.mosca += tiros
         lista.add(this.jogada)
 
+    }
+
+    private fun startTimer() {
+        countDownTimer = object : CountDownTimer(timeLeftInMillis, 10) { // Atualiza a cada 10 milissegundos
+            override fun onTick(millisUntilFinished: Long) {
+                timeLeftInMillis = millisUntilFinished
+                updateCountDownText()
+
+                // Verificar se faltam 10 segundos
+                if (timeLeftInMillis <= 10000 && !tenSecondsWarningShown) {
+                    onTenSecondsLeft()
+                    tenSecondsWarningShown = true
+                }
+            }
+
+            override fun onFinish() {
+                timerRunning = false
+                updateCountDownText()
+                binding.timerTextView.text = "Time's up!"
+
+            }
+        }.start()
+        timerRunning = true;
+    }
+
+    private fun updateCountDownText() {
+        val minutes = (timeLeftInMillis / 1000) / 60
+        val seconds = (timeLeftInMillis / 1000) % 60
+        val milliseconds = (timeLeftInMillis % 1000) / 10
+        val timeFormatted = String.format("%02d:%02d.%02d", minutes, seconds, milliseconds)
+        binding.timerTextView.text = timeFormatted
+    }
+
+    private fun pauseTimer() {
+        Toast.makeText(this, "Pausado", Toast.LENGTH_SHORT).show()
+        countDownTimer.cancel()
+        timerRunning = false
+    }
+
+    private fun onTenSecondsLeft() {
+        // Ação quando faltam 10 segundos
+        Toast.makeText(this, "Faltam 10 segundos!", Toast.LENGTH_SHORT).show()
+        playSound(R.raw.bip_1)
+    }
+    private fun startRepeatSound() {
+        repeatTimer = object : CountDownTimer(10000, 1000) { // 10 segundos, tocando a cada segundo
+            override fun onTick(millisUntilFinished: Long) {
+                playSound(R.raw.bip_1)
+            }
+
+            override fun onFinish() {
+                // Nenhuma ação necessária aqui
+            }
+        }.start()
+    }
+
+
+
+    private fun playSound(soundResId: Int) {
+        mediaPlayer = MediaPlayer.create(this, soundResId)
+        mediaPlayer?.start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 
     override fun onClick(p0: View?) {
