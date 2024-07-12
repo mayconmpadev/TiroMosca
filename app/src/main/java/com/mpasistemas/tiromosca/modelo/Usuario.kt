@@ -6,6 +6,7 @@ data class Usuario(
     var nome: String = "",
     var data: String = "",
     var status: String = "",
+    var status2: String = "",
     var vitorias: Int = 0,
     var derrotas: Int = 0,
     var pontuacao: Double = 0.0,
