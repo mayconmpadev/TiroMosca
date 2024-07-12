@@ -1,4 +1,4 @@
-package com.mpasistemas.tiromosca
+package com.mpasistemas.tiromosca.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +9,6 @@ import android.widget.Toast.LENGTH_LONG
 
 import com.google.firebase.auth.FirebaseAuth
 import com.mpasistemas.tiromosca.databinding.ActivityLoginBinding
-import com.mpasistemas.tiromosca.util.Util
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding

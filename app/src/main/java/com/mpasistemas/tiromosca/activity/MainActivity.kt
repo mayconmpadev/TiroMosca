@@ -1,4 +1,4 @@
-package com.mpasistemas.tiromosca
+package com.mpasistemas.tiromosca.activity
 
 
 import android.content.Intent

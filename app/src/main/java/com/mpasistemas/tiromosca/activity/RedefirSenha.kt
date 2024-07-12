@@ -1,10 +1,9 @@
-package com.mpasistemas.tiromosca
+package com.mpasistemas.tiromosca.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.mpasistemas.tiromosca.databinding.ActivityLoginBinding
 import com.mpasistemas.tiromosca.databinding.ActivityRedefirSenhaBinding
 
 class RedefirSenha : AppCompatActivity() {

@@ -1,9 +1,7 @@
-package com.mpasistemas.tiromosca
+package com.mpasistemas.tiromosca.activity
 
-import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -11,7 +9,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.mpasistemas.tiromosca.databinding.ActivityCadastroBinding
 import com.mpasistemas.tiromosca.modelo.Usuario
 import com.mpasistemas.tiromosca.util.Timestamp
-import com.mpasistemas.tiromosca.util.Util
 
 class CadastroActivity : AppCompatActivity() {
     private val binding by lazy {
