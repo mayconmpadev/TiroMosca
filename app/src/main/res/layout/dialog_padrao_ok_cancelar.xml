@@ -8,7 +8,7 @@
     android:padding="20dp">
 
     <TextView
-        android:id="@+id/dialog_padrao_text_titulo"
+        android:id="@+id/text_titulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -18,7 +18,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/dialog_padrao_text_msg"
+        android:id="@+id/text_msg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -34,8 +34,8 @@
         android:orientation="horizontal">
 
         <android.widget.Button
-            android:id="@+id/dialog_padrao_btn_esquerda"
-            style="@style/button"
+            android:id="@+id/btn_esquerda"
+            style="@style/Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancelar" />
@@ -48,10 +48,10 @@
         </View>
 
         <android.widget.Button
-            android:id="@+id/dialog_padrao_btn_direita"
+            android:id="@+id/btn_direita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/button"
+            style="@style/Button"
             android:text="Ok" />
 
     </LinearLayout>

@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import androidx.recyclerview.widget.RecyclerView.Adapter
-import com.mpasistemas.tiromosca.R
 import com.mpasistemas.tiromosca.databinding.ItemUsuarioBinding
 import com.mpasistemas.tiromosca.modelo.Usuario
 
-class UsuariosAdapter  (val context: Context, var usuarioList: ArrayList<Usuario>,
+class UsuariosAdapter  (val context: Context, var usuarioList: List<Usuario>,
                         var clickCategoria: ClickCategoria):
     Adapter<UsuariosAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -38,8 +37,7 @@ class UsuariosAdapter  (val context: Context, var usuarioList: ArrayList<Usuario
     }
 
 
-      inner class MyViewHolder(val binding: ItemUsuarioBinding) :
-            ViewHolder(binding.root) {
+      inner class MyViewHolder(val binding: ItemUsuarioBinding) : ViewHolder(binding.root) {
 
         }
 

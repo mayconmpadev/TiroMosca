@@ -24,9 +24,19 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvUsuarios"
+        android:layout_weight="1"
+        android:id="@+id/rvUsuario"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        tools:listitem="@layout/item_usuario">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_weight="1"
+        android:id="@+id/rvUsuariosVs"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         tools:listitem="@layout/item_usuarios_vs">
 
     </androidx.recyclerview.widget.RecyclerView>

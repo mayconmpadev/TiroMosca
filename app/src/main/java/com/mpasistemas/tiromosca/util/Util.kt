@@ -16,6 +16,7 @@ import android.text.style.UnderlineSpan
 import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import java.math.BigDecimal
 import java.text.Normalizer
 
@@ -148,5 +149,11 @@ return numero
         val textoSemAcento = Normalizer.normalize(texto, Normalizer.Form.NFD)
             .replace("[^\\p{ASCII}]".toRegex(), "")
         return textoSemAcento.uppercase()
+    }
+
+   fun exibirToast(context: Context, mensagem: String){
+
+
+        Toast.makeText(context, mensagem , Toast.LENGTH_LONG).show()
     }
 }
