@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.br.jafapps.bdfirestore.util.DialogProgress
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.mpasistemas.tiromosca.R
 import com.mpasistemas.tiromosca.adapter.UsuariosAdapter
 import com.mpasistemas.tiromosca.databinding.ActivityListaUsuariosBinding
@@ -19,10 +21,10 @@ import com.mpasistemas.tiromosca.modelo.Usuario
 import com.mpasistemas.tiromosca.util.Util
 
 class ListaUsuariosActivity : AppCompatActivity(), UsuariosAdapter.ClickCategoria {
-    private val usuarioList: ArrayList<Usuario> = ArrayList()
-    var usuario: Usuario? = null
     private var dialog: AlertDialog? = null
     var usuariosAdapter: UsuariosAdapter? = null
+    var listenerRegistration: ListenerRegistration? = null
+
     private val binding by lazy {
         ActivityListaUsuariosBinding.inflate(layoutInflater)
     }
@@ -38,83 +40,45 @@ class ListaUsuariosActivity : AppCompatActivity(), UsuariosAdapter.ClickCategori
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        //recuperaUsuarios()
+        configRVUsuarios()
         monitoraraUsuario()
 
     }
 
-    fun configRVUsuarios(usuarioList: List<Usuario>) {
+    fun configRVUsuarios() {
         binding.rvUsuario.layoutManager = LinearLayoutManager(this)
-        //binding.rvUsuario.setHasFixedSize(true)
-        usuariosAdapter = UsuariosAdapter(baseContext, usuarioList, this)
+        binding.rvUsuario.setHasFixedSize(true)
+        usuariosAdapter = UsuariosAdapter(baseContext, this)
         binding.rvUsuario.adapter = usuariosAdapter
     }
 
-    fun recuperaUsuarios() {
-        usuarioList.clear()
-        val referencia = bancoFirestore.collection("usuarios")
-        referencia.addSnapshotListener { querySnapshot, error ->
 
-            val listaDocuments = querySnapshot?.documents
-
-            listaDocuments?.forEach { documentSnapshot ->
-                val usuario = documentSnapshot.toObject(Usuario::class.java)
-                if (usuario != null) {
-                    if (usuario.id != FirebaseAuth.getInstance().currentUser?.uid) {
-                        usuarioList.add(usuario)
-                    }
-                }
-            }
-            binding.rvUsuario.adapter?.notifyDataSetChanged()
-        }
-    }
-    fun monitoraraUsuario(){
-        usuarioList.clear()
-        Toast.makeText(this,"erro1",Toast.LENGTH_SHORT).show()
+    fun monitoraraUsuario() {
         val referencia = bancoFirestore.collection("usuarios")
-        val listenerRegistration = referencia.addSnapshotListener { snapshots, e ->
-            if (e != null) {
+        listenerRegistration = referencia.addSnapshotListener { snapshots, erro ->
+            if (erro != null) {
                 // Tratar erro
-                Toast.makeText(this,"erro",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "erro", Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
             }
 
             if (snapshots != null) {
-                for (dc in snapshots.documentChanges) {
-                    when (dc.type) {
-                        DocumentChange.Type.ADDED -> {
-                            // Documento adicionado
-
-                            val usuario = dc.document.toObject(Usuario::class.java)
-                            usuarioList.add(usuario)
-                            configRVUsuarios(usuarioList)
-                            //binding.rvUsuario.adapter?.notifyDataSetChanged()
-                            Toast.makeText(this,usuario.nome,Toast.LENGTH_SHORT).show()
-                        }
-                        DocumentChange.Type.MODIFIED -> {
-                            // Documento modificado
-                            Toast.makeText(this,"modificado",Toast.LENGTH_SHORT).show()
-                            val usuario = dc.document.toObject(Usuario::class.java)
-                            for (i in usuarioList.indices) {
-                                if (usuarioList.get(i).id.equals(usuario.id)) {
-                                    usuarioList.set(i, usuario)
-                                }
-                            }
-                            usuariosAdapter?.notifyDataSetChanged()
-                        }
-                        DocumentChange.Type.REMOVED -> {
-                            // Documento removido
-                            Toast.makeText(this,"removido",Toast.LENGTH_SHORT).show()
-                            binding.rvUsuario.adapter?.notifyDataSetChanged()
+                val newDocumentList = snapshots.documents
+                newDocumentList.forEach { dc ->
+                    val usuario = dc.toObject(Usuario::class.java)
+                    if (usuario != null){
+                        if (usuario.id.equals(autenticacao.currentUser?.uid)){
+                          //  newDocumentList.remove(dc)
                         }
                     }
                 }
+                usuariosAdapter?.updateDocuments(newDocumentList)
             }
         }
+    }
 
 // Para parar de ouvir as atualizações, chame o método remove() no ListenerRegistration
 
-    }
 
     private fun showDialogChamar(usuario: Usuario) {
 
@@ -208,21 +172,31 @@ class ListaUsuariosActivity : AppCompatActivity(), UsuariosAdapter.ClickCategori
 
             }.addOnFailureListener { error ->
 
-            dialogProgress.dismiss()
-            Toast.makeText(
-                baseContext,
-                "Erro ao gravar dados: ${error.message.toString()}",
-                Toast.LENGTH_SHORT
-            ).show()
+                dialogProgress.dismiss()
+                Toast.makeText(
+                    baseContext,
+                    "Erro ao gravar dados: ${error.message.toString()}",
+                    Toast.LENGTH_SHORT
+                ).show()
 
+            }
+
+    }
+
+    override fun onDestroy() {
+        listenerRegistration?.remove()
+        super.onDestroy()
+    }
+
+    override fun clickCategoria(documentSnapshot: DocumentSnapshot) {
+        val usuario = documentSnapshot.toObject(Usuario::class.java)
+        if (usuario != null) {
+            showDialogChamar(usuario)
         }
 
     }
 
     //CLICK EM ITEM DA LISTA
-    override fun clickCategoria(usuario: Usuario) {
 
-        showDialogChamar(usuario)
-    }
 
 }
