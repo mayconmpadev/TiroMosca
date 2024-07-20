@@ -16,6 +16,12 @@
         android:theme="@style/Theme.TiroMosca"
         tools:targetApi="31">
         <activity
+            android:name=".activity.AjudaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.PartidaActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.GamerOverActivity"
             android:exported="false" />
         <activity

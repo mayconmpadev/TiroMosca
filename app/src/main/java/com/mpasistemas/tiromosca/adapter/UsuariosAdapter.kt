@@ -3,6 +3,7 @@ package com.mpasistemas.tiromosca.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -18,10 +19,8 @@ class UsuariosAdapter(
     var clickCategoria: ClickCategoria
 ) :
     Adapter<UsuariosAdapter.MyViewHolder>() {
-    private val autenticacao by lazy {
-        FirebaseAuth.getInstance()
-    }
-    private var documentList: MutableList<DocumentSnapshot> = mutableListOf()
+
+    private var documentList: MutableList<Usuario> = mutableListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val itemView = ItemUsuarioBinding.inflate(layoutInflater, parent, false)
@@ -30,7 +29,7 @@ class UsuariosAdapter(
 
     override fun getItemCount() = documentList.size
 
-    fun updateDocuments(newDocumentList: MutableList<DocumentSnapshot>) {
+    fun updateDocuments(newDocumentList: MutableList<Usuario>) {
         val diffCallback = object : DiffUtil.Callback() {
             override fun getOldListSize() = documentList.size
 
@@ -46,16 +45,14 @@ class UsuariosAdapter(
         }
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         documentList = newDocumentList
+//Toast.makeText(context, "diffutil",Toast.LENGTH_SHORT).show()
         diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val usuario = documentList[position].toObject(Usuario::class.java)
-
-        if (usuario != null) {
+        val usuario = documentList[position]
 
                 holder.binding.textUsuario.text = usuario.nome
-        }
 
         holder.binding.root.setOnClickListener() {
             clickCategoria.clickCategoria(documentList[position])
@@ -65,7 +62,7 @@ class UsuariosAdapter(
 
     //interface
     interface ClickCategoria {
-        fun clickCategoria(documentSnapshot: DocumentSnapshot)
+        fun clickCategoria(usuario : Usuario)
     }
 
     inner class MyViewHolder(val binding: ItemUsuarioBinding) : ViewHolder(binding.root) {

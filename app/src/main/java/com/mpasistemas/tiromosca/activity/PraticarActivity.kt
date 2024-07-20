@@ -44,6 +44,8 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         binding.teclado.btn7.setOnClickListener(this)
         binding.teclado.btn8.setOnClickListener(this)
         binding.teclado.btn9.setOnClickListener(this)
+
+        binding.textNumeroAleatorio.text = numAleatorio
         val bundle = intent.extras//todos os parâmetros
         if (bundle != null) {
             val email = bundle.getString("email")

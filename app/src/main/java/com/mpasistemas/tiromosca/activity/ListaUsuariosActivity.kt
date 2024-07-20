@@ -24,6 +24,8 @@ class ListaUsuariosActivity : AppCompatActivity(), UsuariosAdapter.ClickCategori
     private var dialog: AlertDialog? = null
     var usuariosAdapter: UsuariosAdapter? = null
     var listenerRegistration: ListenerRegistration? = null
+    var listenerRegistration2: ListenerRegistration? = null
+    lateinit var usuarioList: MutableList<Usuario>
 
     private val binding by lazy {
         ActivityListaUsuariosBinding.inflate(layoutInflater)
@@ -42,6 +44,7 @@ class ListaUsuariosActivity : AppCompatActivity(), UsuariosAdapter.ClickCategori
         setContentView(binding.root)
         configRVUsuarios()
         monitoraraUsuario()
+        desafiarUsuario()
 
     }
 
@@ -63,16 +66,39 @@ class ListaUsuariosActivity : AppCompatActivity(), UsuariosAdapter.ClickCategori
             }
 
             if (snapshots != null) {
+
+                usuarioList = mutableListOf()
                 val newDocumentList = snapshots.documents
                 newDocumentList.forEach { dc ->
                     val usuario = dc.toObject(Usuario::class.java)
-                    if (usuario != null){
-                        if (usuario.id.equals(autenticacao.currentUser?.uid)){
-                          //  newDocumentList.remove(dc)
+                    if (usuario != null) {
+                        if (!usuario.id.equals(autenticacao.currentUser?.uid)) {
+                            usuarioList.add(usuario)
                         }
                     }
                 }
-                usuariosAdapter?.updateDocuments(newDocumentList)
+                usuariosAdapter?.updateDocuments(usuarioList)
+            }
+        }
+    }
+
+    fun desafiarUsuario() {
+        val referencia =
+            bancoFirestore.collection("usuarios").document(autenticacao.currentUser?.uid.toString())
+        listenerRegistration2 = referencia.addSnapshotListener { snapshots, erro ->
+            if (erro != null) {
+                // Tratar erro
+                return@addSnapshotListener
+            }
+
+            if (snapshots != null) {
+                val usuario = snapshots.toObject(Usuario::class.java)
+                if (!usuario?.status.equals("online")){
+                    if (usuario != null) {
+                        showDialogAceitar(usuario)
+                    }
+                }
+
             }
         }
     }
@@ -95,7 +121,8 @@ class ListaUsuariosActivity : AppCompatActivity(), UsuariosAdapter.ClickCategori
 
         dialogBinding.btnDireita.setOnClickListener { view ->
             if (usuario.status.equals("online")) {
-
+                salvarDados(usuario)
+                dialog!!.dismiss()
 
             } else {
                 dialog!!.dismiss()
@@ -104,8 +131,7 @@ class ListaUsuariosActivity : AppCompatActivity(), UsuariosAdapter.ClickCategori
         }
 
         dialogBinding.btnDireita.setOnClickListener { view ->
-            salvarDados(usuario)
-            dialog!!.dismiss()
+
         }
 
         builder.setView(dialogBinding.getRoot())
@@ -185,18 +211,15 @@ class ListaUsuariosActivity : AppCompatActivity(), UsuariosAdapter.ClickCategori
 
     override fun onDestroy() {
         listenerRegistration?.remove()
+        listenerRegistration2?.remove()
         super.onDestroy()
     }
 
-    override fun clickCategoria(documentSnapshot: DocumentSnapshot) {
-        val usuario = documentSnapshot.toObject(Usuario::class.java)
-        if (usuario != null) {
-            showDialogChamar(usuario)
-        }
+    override fun clickCategoria(usuario: Usuario) {
 
+        showDialogChamar(usuario)
     }
 
-    //CLICK EM ITEM DA LISTA
-
-
 }
+
+//CLICK EM ITEM DA LISTA
