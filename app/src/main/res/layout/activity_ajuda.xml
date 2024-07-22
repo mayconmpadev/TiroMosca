@@ -1,18 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
     tools:context=".activity.AjudaActivity">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="17dp"
-        android:text="@string/ajuda">
+        android:layout_height="wrap_content"
+        android:text="O objetivo do jogo é acertar o número secreto que é composto de 4 digitos que não se repetem (ex: 1234). Não se proucupe
+    o teclado personalizado te auxiliará.
+    Imagine que o numero secreto seja \'1234\' e o numero que você jogou foi \'5738\', repare que os números \'3\' estão na mesma posição.
+    Nessa jogada você acertou o \'3'\ na Mosca. E se você tivesse jogado \'5783'\ repare que o \'3'\ não esta mais na posição que o \'3'\ do numero secreto('1234').
+    Nessa jogada você acertou o \'3'\ como um Tiro. Em mais um exemplo onde o número que você jogou foi \'2134'\ nessa jogada  "
+        android:textSize="18dp">
 
     </TextView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="você acertou "
+            android:textSize="18dp">
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/mosca">
+
+            </ImageView>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/mosca">
+
+            </ImageView>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/tiro">
+
+            </ImageView>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/tiro">
+
+            </ImageView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="duas MOSCAS ('3' e '4')\ne dois TIROS ('2' e '1')"
+        android:textSize="18dp">
+
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="seu objetivo é obter: "
+            android:textSize="18dp">
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/mosca">
+
+            </ImageView>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/mosca">
+
+            </ImageView>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/mosca">
+
+            </ImageView>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/mosca">
+
+            </ImageView>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" Você terá 5 minutos e 20 tentativas.\n
+Agora vamos lá! Bom jogo."
+        android:textSize="18dp">
+
+    </TextView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginVertical="30dp"
+        android:id="@+id/btnPraticar"
+        android:text="Praticar">
+
+    </androidx.appcompat.widget.AppCompatButton>
+</LinearLayout>

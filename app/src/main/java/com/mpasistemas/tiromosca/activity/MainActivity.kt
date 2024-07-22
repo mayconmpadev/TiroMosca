@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.llPraticar.setOnClickListener() {
-            val intent = Intent(this, PraticarActivity::class.java)
+        binding.llAjuda.setOnClickListener() {
+            val intent = Intent(this, AjudaActivity::class.java)
             startActivity(intent)
         }
 

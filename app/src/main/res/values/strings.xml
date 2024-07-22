@@ -1,7 +1,4 @@
 <resources>
     <string name="app_name">TiroMosca</string>
-    <string name="ajuda">O objetivo do jogo é acertar o número secreto que é composto de 4 digitos que não se repetem (ex: 1234)."\n" Não se proucupe
-    o teclado personalizado te auxiliará."\n"
-    Imagine que o numero secreto seja '1234'
-    e o "\n"numero que você jogou foi      '5738'</string>
+
 </resources>
