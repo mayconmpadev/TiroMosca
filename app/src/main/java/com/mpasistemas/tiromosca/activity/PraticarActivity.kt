@@ -22,7 +22,7 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
     private lateinit var timer: CountDownTimer
     private lateinit var countDownTimer: CountDownTimer
     private var repeatTimer: CountDownTimer? = null
-    private var timeLeftInMillis: Long = 20000 // 10 minutos em milissegundos
+    private var timeLeftInMillis: Long = 300000 // 10 minutos em milissegundos
     private var tenSecondsWarningShown = false
     private var timerRunning = false
     var apertados: ArrayList<Button> = ArrayList()
