@@ -87,6 +87,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
             binding.teclado.btnSalvar.visibility = View.VISIBLE
         }
     }
+
     fun apagar() {
         binding.textJogada.text = ""
         binding.teclado.btnSalvar.visibility = INVISIBLE
@@ -96,6 +97,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         }
         apertados.clear()
     }
+
     fun mosca(jogada: String) {
         var moscas = ""
         for (i in 0..3) {
@@ -105,14 +107,24 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
 
         }
         if (moscas.equals("mmmm")) {
-            pauseTimer()
-            binding.textNumeroAleatorio.text = binding.textJogada.text
+            ganhou()
 
         }
         this.jogada.mosca = moscas
 
         tiro(jogada)
     }
+
+    private fun ganhou() {
+        pauseTimer()
+        val tempo: Int = (binding.timerTextView.text.toString().replace(":", "")).toInt()
+        var numJogadas: Int = (lista.size + 1) * 1000
+        numJogadas = 20000 - numJogadas
+        val pontuacao : Int = numJogadas + tempo
+        Toast.makeText(this, String.format(pontuacao.toString()), Toast.LENGTH_SHORT).show()
+        binding.textNumeroAleatorio.text = binding.textJogada.text
+    }
+
     fun tiro(jogada: String) {
         var tiros = ""
         for (i in 0..3) {
@@ -130,25 +142,26 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
     private fun startTimer() {
 
         val intent = Intent(this, GamerOverActivity::class.java)
-        countDownTimer = object : CountDownTimer(timeLeftInMillis, 10) { // Atualiza a cada 10 milissegundos
-            override fun onTick(millisUntilFinished: Long) {
-                timeLeftInMillis = millisUntilFinished
-                updateCountDownText()
+        countDownTimer =
+            object : CountDownTimer(timeLeftInMillis, 10) { // Atualiza a cada 10 milissegundos
+                override fun onTick(millisUntilFinished: Long) {
+                    timeLeftInMillis = millisUntilFinished
+                    updateCountDownText()
 
-                // Verificar se faltam 10 segundos
-                if (timeLeftInMillis <= 10000 && !tenSecondsWarningShown) {
-                    onTenSecondsLeft()
-                    tenSecondsWarningShown = true
+                    // Verificar se faltam 10 segundos
+                    if (timeLeftInMillis <= 10000 && !tenSecondsWarningShown) {
+                        onTenSecondsLeft()
+                        tenSecondsWarningShown = true
+                    }
                 }
-            }
 
-            override fun onFinish() {
-                timerRunning = false
-                updateCountDownText()
-                binding.timerTextView.text = "Time's up!"
-                startActivity(intent)
-            }
-        }.start()
+                override fun onFinish() {
+                    timerRunning = false
+                    updateCountDownText()
+                    binding.timerTextView.text = "Time's up!"
+                    startActivity(intent)
+                }
+            }.start()
         timerRunning = true;
     }
 
@@ -156,7 +169,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         val minutes = (timeLeftInMillis / 1000) / 60
         val seconds = (timeLeftInMillis / 1000) % 60
         val milliseconds = (timeLeftInMillis % 1000) / 10
-        val timeFormatted = String.format("%02d:%02d.%02d", minutes, seconds, milliseconds)
+        val timeFormatted = String.format("%02d:%02d:%02d", minutes, seconds, milliseconds)
         binding.timerTextView.text = timeFormatted
     }
 
@@ -171,6 +184,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         Toast.makeText(this, "Faltam 10 segundos!", Toast.LENGTH_SHORT).show()
         // playSound(R.raw.bip_1)
     }
+
     private fun startRepeatSound() {
         repeatTimer = object : CountDownTimer(10000, 1000) { // 10 segundos, tocando a cada segundo
             override fun onTick(millisUntilFinished: Long) {
@@ -182,7 +196,6 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
             }
         }.start()
     }
-
 
 
     private fun playSound(soundResId: Int) {
