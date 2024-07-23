@@ -1,24 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
+    android:orientation="vertical"
     tools:context=".activity.TorneioActivity">
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="torneio"
-        android:textSize="30sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="8dp"
+        android:orientation="horizontal">
 
-    </TextView>
+        <TextView
+            android:id="@+id/textNumeroAleatorio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_borda_arredondada"
+            android:paddingHorizontal="6dp"
+            android:text="****"
+            android:textSize="25sp"
+            android:textStyle="bold">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </TextView>
+
+        <TextView
+            android:id="@+id/textJogada"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/timerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:textSize="18sp"
+            android:text="00:00:00.00" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="jogadas: ">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/qtdJogadas"
+            android:text="0 ">
+
+        </TextView>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvJogadas"
+        tools:listitem="@layout/item_jogadas"
+        android:layout_weight="1">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <include
+        android:id="@+id/teclado"
+        layout="@layout/teclado"
+        android:gravity="center">
+
+    </include>
+</LinearLayout>

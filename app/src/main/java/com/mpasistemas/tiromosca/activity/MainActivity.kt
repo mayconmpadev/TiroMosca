@@ -38,8 +38,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.llPraticar.setOnClickListener() {
-            val intent = Intent(this, PraticarActivity::class.java)
+        binding.llTorneio.setOnClickListener() {
+            val intent = Intent(this, TorneioActivity::class.java)
             startActivity(intent)
         }
 
