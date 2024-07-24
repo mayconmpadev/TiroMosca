@@ -20,8 +20,10 @@ import com.mpasistemas.tiromosca.R
 import com.mpasistemas.tiromosca.adapter.jogadasAdapter
 import com.mpasistemas.tiromosca.databinding.ActivityTorneioBinding
 import com.mpasistemas.tiromosca.modelo.Jogadas
+import com.mpasistemas.tiromosca.modelo.Torneio
 import com.mpasistemas.tiromosca.modelo.Usuario
 import com.mpasistemas.tiromosca.util.Util
+import java.util.Date
 
 class TorneioActivity : AppCompatActivity(), OnClickListener {
     private val autenticacao by lazy {
@@ -143,6 +145,12 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         val pontuacao : Int = numJogadas + tempo
         Toast.makeText(this, String.format(pontuacao.toString()), Toast.LENGTH_SHORT).show()
         binding.textNumeroAleatorio.text = binding.textJogada.text
+        val torneio = Torneio()
+        torneio.nome = autenticacao.currentUser?.uid.toString()
+        torneio.pontos = pontuacao
+        torneio.data = Date()
+
+            salvarDados(torneio)
     }
 
     fun tiro(jogada: String) {
@@ -223,30 +231,23 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         mediaPlayer?.start()
     }
 
-    fun salvarDados(usuario: Usuario) {
+    fun salvarDados(torneio: Torneio) {
 
         val dialogProgress = DialogProgress()
         dialogProgress.show(supportFragmentManager, "0")
 
-        val reference = bancoFirestore.collection("usuarios")
+        val reference = bancoFirestore.collection("torneio")
 
 
-        reference.document(usuario.id).update("status", autenticacao.currentUser?.uid.toString())
-            .addOnSuccessListener {
+        reference.document(torneio.nome).set(torneio).addOnSuccessListener { sucesso ->
+            Toast.makeText(this, "salvo com sucesso", Toast.LENGTH_SHORT).show()
 
-                dialogProgress.dismiss()
-                Toast.makeText(baseContext, "Sucesso ao gravar dados", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener { erro ->
 
-            }.addOnFailureListener { error ->
+            Toast.makeText(this, "erro ${erro.message}", Toast.LENGTH_SHORT).show()
 
-                dialogProgress.dismiss()
-                Toast.makeText(
-                    baseContext,
-                    "Erro ao gravar dados: ${error.message.toString()}",
-                    Toast.LENGTH_SHORT
-                ).show()
+        }
 
-            }
 
     }
 
