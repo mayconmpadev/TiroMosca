@@ -5,19 +5,32 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.OnClickListener
+import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.br.jafapps.bdfirestore.util.DialogProgress
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mpasistemas.tiromosca.R
 import com.mpasistemas.tiromosca.adapter.jogadasAdapter
 import com.mpasistemas.tiromosca.databinding.ActivityTorneioBinding
 import com.mpasistemas.tiromosca.modelo.Jogadas
+import com.mpasistemas.tiromosca.modelo.Usuario
 import com.mpasistemas.tiromosca.util.Util
 
 class TorneioActivity : AppCompatActivity(), OnClickListener {
+    private val autenticacao by lazy {
+        FirebaseAuth.getInstance()
+    }
+
+    private val bancoFirestore by lazy {
+        FirebaseFirestore.getInstance()
+    }
     private lateinit var binding: ActivityTorneioBinding
     private lateinit var countDownTimer: CountDownTimer
     private var repeatTimer: CountDownTimer? = null
@@ -108,6 +121,13 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         }
         if (moscas.equals("mmmm")) {
             ganhou()
+
+        }else if (lista.size == 4){
+            pauseTimer()
+            binding.bntConferir.visibility = VISIBLE
+            binding.teclado.root.visibility = GONE
+            val intent = Intent(this, GamerOverActivity::class.java)
+            startActivity(intent)
 
         }
         this.jogada.mosca = moscas
@@ -201,6 +221,33 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
     private fun playSound(soundResId: Int) {
         mediaPlayer = MediaPlayer.create(this, soundResId)
         mediaPlayer?.start()
+    }
+
+    fun salvarDados(usuario: Usuario) {
+
+        val dialogProgress = DialogProgress()
+        dialogProgress.show(supportFragmentManager, "0")
+
+        val reference = bancoFirestore.collection("usuarios")
+
+
+        reference.document(usuario.id).update("status", autenticacao.currentUser?.uid.toString())
+            .addOnSuccessListener {
+
+                dialogProgress.dismiss()
+                Toast.makeText(baseContext, "Sucesso ao gravar dados", Toast.LENGTH_SHORT).show()
+
+            }.addOnFailureListener { error ->
+
+                dialogProgress.dismiss()
+                Toast.makeText(
+                    baseContext,
+                    "Erro ao gravar dados: ${error.message.toString()}",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            }
+
     }
 
     override fun onDestroy() {

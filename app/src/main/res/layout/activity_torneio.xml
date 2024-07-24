@@ -79,6 +79,17 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bntConferir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="32dp"
+        android:visibility="gone"
+        android:text="inicio">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
     <include
         android:id="@+id/teclado"
         layout="@layout/teclado"
