@@ -43,6 +43,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
     val numAleatorio: String = Util.numeroAleatorio()
     var lista: ArrayList<Jogadas> = ArrayList()
     lateinit var jogada: Jogadas
+    var usuario = Usuario()
     private var mediaPlayer: MediaPlayer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,11 +64,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         binding.teclado.btn9.setOnClickListener(this)
 
         binding.textNumeroAleatorio.text = numAleatorio
-        val bundle = intent.extras//todos os parâmetros
-        if (bundle != null) {
-            val email = bundle.getString("email")
-            Toast.makeText(this, email, Toast.LENGTH_LONG).show()
-        }
+
         binding.teclado.btnApagar.setOnClickListener {
             apagar()
         }
@@ -85,6 +82,13 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         binding.rvJogadas.adapter = jogadasAdapter(lista)
 
         updateCountDownText()
+
+    }
+
+    fun recuperarIntent(){
+
+            usuario = intent.getSerializableExtra("usuario") as Usuario
+
 
     }
 
