@@ -16,6 +16,9 @@
         android:theme="@style/Theme.TiroMosca"
         tools:targetApi="31">
         <activity
+            android:name=".activity.RankingActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.TorneioActivity"
             android:exported="false" />
         <activity

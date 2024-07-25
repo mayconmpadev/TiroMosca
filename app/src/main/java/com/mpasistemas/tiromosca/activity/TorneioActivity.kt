@@ -43,7 +43,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
     val numAleatorio: String = Util.numeroAleatorio()
     var lista: ArrayList<Jogadas> = ArrayList()
     lateinit var jogada: Jogadas
-    var usuario = Usuario()
+    var usuario: Usuario? = null
     private var mediaPlayer: MediaPlayer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +52,8 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         if (!timerRunning) {
             startTimer()
         }
+        recuperarIntent()
+
         binding.teclado.btn0.setOnClickListener(this)
         binding.teclado.btn1.setOnClickListener(this)
         binding.teclado.btn2.setOnClickListener(this)
@@ -87,7 +89,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
 
     fun recuperarIntent(){
 
-            usuario = intent.getSerializableExtra("usuario") as Usuario
+           usuario = intent.getParcelableExtra<Usuario>("usuario")
 
 
     }
@@ -150,7 +152,8 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         Toast.makeText(this, String.format(pontuacao.toString()), Toast.LENGTH_SHORT).show()
         binding.textNumeroAleatorio.text = binding.textJogada.text
         val torneio = Torneio()
-        torneio.nome = autenticacao.currentUser?.uid.toString()
+        torneio.id = autenticacao.currentUser?.uid.toString()
+        torneio.nome = usuario?.nome?:"vazio"
         torneio.pontos = pontuacao
         torneio.data = Date()
 
@@ -243,7 +246,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         val reference = bancoFirestore.collection("torneio")
 
 
-        reference.document(torneio.nome).set(torneio).addOnSuccessListener { sucesso ->
+        reference.document(torneio.id).set(torneio).addOnSuccessListener { sucesso ->
             Toast.makeText(this, "salvo com sucesso", Toast.LENGTH_SHORT).show()
 
         }.addOnFailureListener { erro ->

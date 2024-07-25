@@ -12,7 +12,7 @@ data class Usuario(
     var status: String = "",
     var vitorias: Int = 0,
     var derrotas: Int = 0,
-    var pontuacao: Double = 0.0,
+    var pontuacao: Int = 0,
     var partidas: Int = 0,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -22,17 +22,24 @@ data class Usuario(
         parcel.readString() ?:"",
         parcel.readInt() ,
         parcel.readInt(),
-        parcel.readDouble(),
+        parcel.readInt(),
         parcel.readInt()
     ) {
     }
 
     override fun describeContents(): Int {
-        TODO("Not yet implemented")
+       return 0
     }
 
-    override fun writeToParcel(p0: Parcel, p1: Int) {
-        TODO("Not yet implemented")
+    override fun writeToParcel(parcel: Parcel, p1: Int) {
+parcel.writeString(id)
+parcel.writeString(nome)
+parcel.writeString(data)
+parcel.writeString(status)
+parcel.writeInt(vitorias)
+parcel.writeInt(derrotas)
+parcel.writeInt(vitorias)
+parcel.writeInt(partidas)
     }
 
     companion object CREATOR : Parcelable.Creator<Usuario> {
