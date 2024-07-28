@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.llTorneio.setOnClickListener() {
-            val intent = Intent(this, TorneioActivity::class.java)
+            val intent = Intent(this, RankingActivity::class.java)
             intent.putExtra("usuario",usuario)
             startActivity(intent)
         }

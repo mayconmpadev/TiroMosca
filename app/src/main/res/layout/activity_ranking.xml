@@ -3,8 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_margin="16dp"
     android:layout_height="match_parent"
     tools:context=".activity.RankingActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_torneio"
+        tools:itemCount="20"
+        android:layout_weight="1"
+        android:id="@+id/rvRanking">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_borda_arredondada"
+        android:backgroundTint="@color/color_verde"
+        android:text="inicio"
+        android:id="@+id/btnInicio">
+
+    </androidx.appcompat.widget.AppCompatButton>
 
 </LinearLayout>

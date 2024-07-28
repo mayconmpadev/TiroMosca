@@ -90,8 +90,6 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
     fun recuperarIntent(){
 
            usuario = intent.getParcelableExtra<Usuario>("usuario")
-
-
     }
 
     fun jogada(button: Button) {
