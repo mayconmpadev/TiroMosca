@@ -65,7 +65,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         binding.teclado.btn8.setOnClickListener(this)
         binding.teclado.btn9.setOnClickListener(this)
 
-        binding.textNumeroAleatorio.text = numAleatorio
+        //  binding.textNumeroAleatorio.text = numAleatorio
 
         binding.teclado.btnApagar.setOnClickListener {
             apagar()
@@ -87,9 +87,9 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
 
     }
 
-    fun recuperarIntent(){
+    fun recuperarIntent() {
 
-           usuario = intent.getParcelableExtra<Usuario>("usuario")
+        usuario = intent.getParcelableExtra<Usuario>("usuario")
     }
 
     fun jogada(button: Button) {
@@ -128,7 +128,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         if (moscas.equals("mmmm")) {
             ganhou()
 
-        }else if (lista.size == 4){
+        } else if (lista.size == 14) {
             pauseTimer()
             binding.bntConferir.visibility = VISIBLE
             binding.teclado.root.visibility = GONE
@@ -146,16 +146,16 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         val tempo: Int = (binding.timerTextView.text.toString().replace(":", "")).toInt()
         var numJogadas: Int = (lista.size + 1) * 1000
         numJogadas = 20000 - numJogadas
-        val pontuacao : Int = numJogadas + tempo
+        val pontuacao: Int = numJogadas + tempo
         Toast.makeText(this, String.format(pontuacao.toString()), Toast.LENGTH_SHORT).show()
         binding.textNumeroAleatorio.text = binding.textJogada.text
         val torneio = Torneio()
         torneio.id = autenticacao.currentUser?.uid.toString()
-        torneio.nome = usuario?.nome?:"vazio"
+        torneio.nome = usuario?.nome ?: "vazio"
         torneio.pontos = pontuacao
         torneio.data = Date()
 
-            salvarDados(torneio)
+        salvarDados(torneio)
     }
 
     fun tiro(jogada: String) {
@@ -246,7 +246,10 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
 
         reference.document(torneio.id).set(torneio).addOnSuccessListener { sucesso ->
             Toast.makeText(this, "salvo com sucesso", Toast.LENGTH_SHORT).show()
-
+            dialogProgress.dismiss()
+            val intent = Intent(this, RankingActivity::class.java)
+            startActivity(intent)
+            finish()
         }.addOnFailureListener { erro ->
 
             Toast.makeText(this, "erro ${erro.message}", Toast.LENGTH_SHORT).show()

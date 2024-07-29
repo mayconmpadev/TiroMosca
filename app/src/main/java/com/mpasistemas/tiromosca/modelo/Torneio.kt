@@ -9,5 +9,6 @@ data class Torneio(
     var nome: String = "",
     var data: Date =  Date(),
     var pontos: Int = 0,
+    var posicao: Int = 0,
 
 )

@@ -3,6 +3,7 @@ package com.mpasistemas.tiromosca.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -13,6 +14,7 @@ import com.mpasistemas.tiromosca.modelo.Usuario
 
 class RankingAdapter (  val context: Context) : Adapter<RankingAdapter.MyViewHolder>(){
     private var documentList: MutableList<Torneio> = mutableListOf()
+    var i : Int = 1
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
        val layoutInflater = LayoutInflater.from(parent.context)
         val itemView = ItemTorneioBinding.inflate(layoutInflater, parent, false)
@@ -22,7 +24,9 @@ class RankingAdapter (  val context: Context) : Adapter<RankingAdapter.MyViewHol
     override fun getItemCount() = documentList.size
 
     fun updateDocuments(newDocumentList: MutableList<Torneio>) {
+i = 1
         val diffCallback = object : DiffUtil.Callback() {
+
             override fun getOldListSize() = documentList.size
 
             override fun getNewListSize() = newDocumentList.size
@@ -42,7 +46,7 @@ class RankingAdapter (  val context: Context) : Adapter<RankingAdapter.MyViewHol
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val ranking = documentList[position]
-        holder.binding.textPosicao.text = (position + 1).toString()
+        holder.binding.textPosicao.text = ranking.posicao.toString()
         holder.binding.textCompetidor.text = ranking.nome
         holder.binding.textPontuacao.text = ranking.pontos.toString()
     }

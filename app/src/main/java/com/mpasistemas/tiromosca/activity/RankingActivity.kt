@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.Query
 import com.mpasistemas.tiromosca.R
 import com.mpasistemas.tiromosca.adapter.RankingAdapter
 import com.mpasistemas.tiromosca.adapter.UsuariosAdapter
@@ -65,7 +66,7 @@ class RankingActivity : AppCompatActivity() {
 
     fun monitoraraUsuario() {
         val referencia = bancoFirestore.collection("torneio")
-        listenerRegistration = referencia.addSnapshotListener { snapshots, erro ->
+        listenerRegistration = referencia.orderBy("pontos", Query.Direction.DESCENDING).addSnapshotListener { snapshots, erro ->
             if (erro != null) {
                 // Tratar erro
                 Toast.makeText(this, "erro", Toast.LENGTH_SHORT).show()
@@ -81,6 +82,7 @@ class RankingActivity : AppCompatActivity() {
                     if (ranking != null) {
 
                             rankingList.add(ranking)
+                        ranking.posicao = rankingList.size
 
                     }
                 }
