@@ -21,6 +21,7 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
     private lateinit var binding: ActivityPraticarBinding
     private lateinit var timer: CountDownTimer
     private lateinit var countDownTimer: CountDownTimer
+    lateinit var adapter: jogadasAdapter;
     private var repeatTimer: CountDownTimer? = null
     private var timeLeftInMillis: Long = 300000 // 10 minutos em milissegundos
     private var tenSecondsWarningShown = false
@@ -67,7 +68,8 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
             apagar()
         }
         binding.rvJogadas.layoutManager = LinearLayoutManager(this)
-        binding.rvJogadas.adapter = jogadasAdapter(lista)
+        adapter = jogadasAdapter(lista)
+        binding.rvJogadas.adapter = adapter
 
         updateCountDownText()
 
@@ -124,6 +126,8 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         }
         this.jogada.mosca += tiros
         lista.add(this.jogada)
+       binding.rvJogadas.scrollToPosition(adapter.itemCount - 1)
+
 
     }
 

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="16dp"
+    android:padding="16dp"
     tools:context=".activity.AjudaActivity">
 
     <TextView
@@ -146,9 +146,13 @@ Agora vamos lá! Bom jogo."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:paddingHorizontal="16dp"
+        android:background="@drawable/bg_borda_arredondada"
+        android:backgroundTint="@color/color_verde"
         android:layout_marginVertical="30dp"
+        android:textColor="@color/branco"
         android:id="@+id/btnPraticar"
-        android:text="Praticar">
+        android:text="P r a t i c a r">
 
     </androidx.appcompat.widget.AppCompatButton>
 </LinearLayout>

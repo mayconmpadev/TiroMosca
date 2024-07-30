@@ -46,10 +46,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.llTorneio.setOnClickListener() {
-            val intent = Intent(this, RankingActivity::class.java)
-            intent.putExtra("usuario",usuario)
-            startActivity(intent)
-        }
+            if(autenticacao.currentUser?.uid != null){
+                val intent = Intent(this, RankingActivity::class.java)
+                intent.putExtra("usuario",usuario)
+                startActivity(intent)
+            }else{
+
+            }
+            }
+
 
         binding.llAjuda.setOnClickListener() {
             val intent = Intent(this, AjudaActivity::class.java)
