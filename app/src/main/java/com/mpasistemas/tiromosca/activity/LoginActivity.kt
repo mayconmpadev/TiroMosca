@@ -1,13 +1,20 @@
 package com.mpasistemas.tiromosca.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
+import android.view.MotionEvent
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 
 import com.google.firebase.auth.FirebaseAuth
+import com.mpasistemas.tiromosca.R
 import com.mpasistemas.tiromosca.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
@@ -16,12 +23,51 @@ class LoginActivity : AppCompatActivity() {
         FirebaseAuth.getInstance()
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.btnEntrar.setOnClickListener {
-            logar(binding.editEmail.text, binding.editSenha.text)
+            if (binding.editEmail.text.isNotEmpty() && binding.editSenha.text.isNotEmpty()) {
+                logar(binding.editEmail.text, binding.editSenha.text)
+            } else {
+                Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        binding.editSenha.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+
+                if (event.rawX >= (binding.editSenha.right - binding.editSenha.compoundDrawables[2].bounds.width())) {
+
+                    val visivel = ContextCompat.getDrawable(this, R.drawable.baseline_visibility_24)
+                    val oculto =
+                        ContextCompat.getDrawable(this, R.drawable.baseline_visibility_off_24)
+                    if (binding.editSenha.inputType == 129) {
+                        binding.editSenha.inputType = 145
+                        binding.editSenha.setCompoundDrawablesWithIntrinsicBounds(
+                            binding.editSenha.compoundDrawables[0], // drawableLeft
+                            binding.editSenha.compoundDrawables[1], // drawableTop
+                            oculto,                 // drawableRight
+                            binding.editSenha.compoundDrawables[3]  // drawableBottom
+                        )
+
+                    } else {
+                        binding.editSenha.inputType = 129
+                        binding.editSenha.setCompoundDrawablesWithIntrinsicBounds(
+                            binding.editSenha.compoundDrawables[0], // drawableLeft
+                            binding.editSenha.compoundDrawables[1], // drawableTop
+                            visivel,                 // drawableRight
+                            binding.editSenha.compoundDrawables[3]  // drawableBottom
+                        )
+                    }
+                    return@setOnTouchListener true
+                }
+            }
+            return@setOnTouchListener false
         }
 
         binding.llCadastroUsuario.setOnClickListener() {

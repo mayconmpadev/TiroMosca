@@ -33,12 +33,12 @@
 
         android:orientation="horizontal">
 
-        <android.widget.Button
+        <Button
             android:id="@+id/btn_esquerda"
-            style="@style/Button"
+           android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancelar" />
+            android:text="C A N C E  LA R" />
 
         <View
             android:layout_width="wrap_content"
@@ -47,12 +47,12 @@
 
         </View>
 
-        <android.widget.Button
+        <Button
             android:id="@+id/btn_direita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Button"
-            android:text="Ok" />
+            android:textStyle="bold"
+            android:text="O K" />
 
     </LinearLayout>
 

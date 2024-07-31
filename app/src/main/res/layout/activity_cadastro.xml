@@ -59,7 +59,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:textStyle="bold"
         android:layout_gravity="center"
-        android:text="Salvar" />
+        android:text="S A L V A R" />
 
 </LinearLayout>

@@ -31,9 +31,9 @@ class MainActivity : AppCompatActivity() {
             obterUsuario()
             //  val intent = Intent(this, PraticarActivity::class.java)
             //  startActivity(intent)
-            binding.btnLogin.text = "sair"
+            binding.btnLogin.text = "S A I R"
         } else {
-            binding.btnLogin.text = "login"
+            binding.btnLogin.text = "L O G I N"
         }
         binding.llPraticar.setOnClickListener() {
             val intent = Intent(this, PraticarActivity::class.java)
@@ -46,13 +46,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.llTorneio.setOnClickListener() {
-            if(autenticacao.currentUser?.uid != null){
+
                 val intent = Intent(this, RankingActivity::class.java)
                 intent.putExtra("usuario",usuario)
                 startActivity(intent)
-            }else{
 
-            }
             }
 
 
@@ -66,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                 //  val intent = Intent(this, PraticarActivity::class.java)
                 //  startActivity(intent)
                 autenticacao.signOut()
-                binding.btnLogin.text = "login"
+                binding.btnLogin.text = "L O G I N"
             } else {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)

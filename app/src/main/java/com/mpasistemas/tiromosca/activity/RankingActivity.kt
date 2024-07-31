@@ -26,7 +26,7 @@ class RankingActivity : AppCompatActivity() {
     var listenerRegistration: ListenerRegistration? = null
     lateinit var rankingList: MutableList<Torneio>
     var usuario: Usuario? = null
-    private val binding by lazy{
+    private val binding by lazy {
         ActivityRankingBinding.inflate(layoutInflater)
     }
 
@@ -37,6 +37,7 @@ class RankingActivity : AppCompatActivity() {
     private val bancoFirestore by lazy {
         FirebaseFirestore.getInstance()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -44,15 +45,20 @@ class RankingActivity : AppCompatActivity() {
         configRVUsuarios()
         monitoraraUsuario()
 
-        binding.btnInicio.setOnClickListener(){
-            val intent = Intent(this, TorneioActivity::class.java)
-            intent.putExtra("usuario",usuario)
-            startActivity(intent)
+        binding.btnInicio.setOnClickListener() {
+            if (autenticacao.currentUser != null) {
+                val intent = Intent(this, TorneioActivity::class.java)
+                intent.putExtra("usuario", usuario)
+                startActivity(intent)
+            }else{
+                Toast.makeText(this, "Para jogar no Torneio faça Login", Toast.LENGTH_LONG).show()
+            }
+
         }
 
     }
 
-    fun recuperarIntent(){
+    fun recuperarIntent() {
 
         usuario = intent.getParcelableExtra<Usuario>("usuario")
     }
@@ -66,28 +72,29 @@ class RankingActivity : AppCompatActivity() {
 
     fun monitoraraUsuario() {
         val referencia = bancoFirestore.collection("torneio")
-        listenerRegistration = referencia.orderBy("pontos", Query.Direction.DESCENDING).addSnapshotListener { snapshots, erro ->
-            if (erro != null) {
-                // Tratar erro
-                Toast.makeText(this, "erro", Toast.LENGTH_SHORT).show()
-                return@addSnapshotListener
-            }
+        listenerRegistration = referencia.orderBy("pontos", Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshots, erro ->
+                if (erro != null) {
+                    // Tratar erro
+                    Toast.makeText(this, "erro", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
 
-            if (snapshots != null) {
+                if (snapshots != null) {
 
-                rankingList = mutableListOf()
-                val newDocumentList = snapshots.documents
-                newDocumentList.forEach { dc ->
-                    val ranking = dc.toObject(Torneio::class.java)
-                    if (ranking != null) {
+                    rankingList = mutableListOf()
+                    val newDocumentList = snapshots.documents
+                    newDocumentList.forEach { dc ->
+                        val ranking = dc.toObject(Torneio::class.java)
+                        if (ranking != null) {
 
                             rankingList.add(ranking)
-                        ranking.posicao = rankingList.size
+                            ranking.posicao = rankingList.size
 
+                        }
                     }
+                    rankingAdapter?.updateDocuments(rankingList)
                 }
-                rankingAdapter?.updateDocuments(rankingList)
             }
-        }
     }
 }
