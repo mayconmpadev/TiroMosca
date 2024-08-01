@@ -192,6 +192,8 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
                     timerRunning = false
                     updateCountDownText()
                     binding.timerTextView.text = "Time's up!"
+                    binding.bntConferir.visibility = VISIBLE
+                    binding.teclado.root.visibility = GONE
                     startActivity(intent)
                 }
             }.start()

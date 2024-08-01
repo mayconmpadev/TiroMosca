@@ -10,8 +10,11 @@ import android.text.InputType
 import android.view.MotionEvent
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
+import android.window.OnBackInvokedDispatcher
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import com.br.jafapps.bdfirestore.util.DialogProgress
 
 import com.google.firebase.auth.FirebaseAuth
 import com.mpasistemas.tiromosca.R
@@ -75,22 +78,43 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
+        // Adicionar callback para o botão de voltar
+        val intent2 = Intent(this, MainActivity::class.java)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                startActivity(intent2)
+                finish()
+            }
+        })
     }
 
+    private fun shouldHandleBackPress(): Boolean {
+        // Sua lógica para determinar se deve manusear o botão de volta ou não
+        return true
+    }
+
+
+
+
     fun logar(email: Editable, senha: Editable) {
+        val dialogProgress = DialogProgress()
+        dialogProgress.show(supportFragmentManager, "0")
         autenticacao.signInWithEmailAndPassword(
             email.toString(),
             senha.toString()
         ).addOnSuccessListener { sucesso ->
+            dialogProgress.dismiss()
 
-            val intent = Intent(this, PraticarActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("email", sucesso.user?.email)
             startActivity(intent)
             finish()
         }.addOnFailureListener { exception ->
+            dialogProgress.dismiss()
             Toast.makeText(this, exception.message, LENGTH_LONG).show()
         }
 
     }
+
+
 }

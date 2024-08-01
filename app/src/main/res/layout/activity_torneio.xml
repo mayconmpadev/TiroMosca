@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/red"
             android:textSize="18sp"
-            android:text="00:00:00.00" />
+            android:text="00:00:00:00" />
 
 
     </LinearLayout>
@@ -79,16 +79,19 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
+
         android:id="@+id/bntConferir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="32dp"
         android:visibility="gone"
-        android:text="inicio">
+        android:textStyle="bold"
+        tools:visibility="visible"
+        android:text="I N I C I O">
 
-    </androidx.appcompat.widget.AppCompatButton>
+    </Button>
 
     <include
         android:id="@+id/teclado"

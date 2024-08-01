@@ -5,9 +5,12 @@ import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
+import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.OnClickListener
+import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +18,9 @@ import com.mpasistemas.tiromosca.R
 import com.mpasistemas.tiromosca.adapter.jogadasAdapter
 import com.mpasistemas.tiromosca.databinding.ActivityPraticarBinding
 import com.mpasistemas.tiromosca.modelo.Jogadas
+import com.mpasistemas.tiromosca.modelo.Torneio
 import com.mpasistemas.tiromosca.util.Util
+import java.util.Date
 
 class PraticarActivity : AppCompatActivity(), OnClickListener {
     private lateinit var binding: ActivityPraticarBinding
@@ -23,7 +28,7 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
     private lateinit var countDownTimer: CountDownTimer
     lateinit var adapter: jogadasAdapter;
     private var repeatTimer: CountDownTimer? = null
-    private var timeLeftInMillis: Long = 300000 // 10 minutos em milissegundos
+    private var timeLeftInMillis: Long = 100000 // 10 minutos em milissegundos
     private var tenSecondsWarningShown = false
     private var timerRunning = false
     var apertados: ArrayList<Button> = ArrayList()
@@ -33,6 +38,10 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
     private var mediaPlayer: MediaPlayer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (!timerRunning) {
+            startTimer()
+        }
         binding = ActivityPraticarBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.teclado.btn0.setOnClickListener(this)
@@ -46,7 +55,11 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         binding.teclado.btn8.setOnClickListener(this)
         binding.teclado.btn9.setOnClickListener(this)
 
-        binding.textNumeroAleatorio.text = numAleatorio
+        binding.bntConferir.setOnClickListener(){
+            finish()
+        }
+
+
         val bundle = intent.extras//todos os parâmetros
         if (bundle != null) {
             val email = bundle.getString("email")
@@ -107,8 +120,15 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
 
         }
         if (moscas.equals("mmmm")) {
+            ganhou()
+
+        } else if (lista.size == 14) {
             pauseTimer()
-            binding.textNumeroAleatorio.text = binding.textJogada.text
+            binding.textNumeroAleatorio.text = numAleatorio
+            binding.bntConferir.visibility = VISIBLE
+            binding.teclado.root.visibility = GONE
+            val intent = Intent(this, GamerOverActivity::class.java)
+            startActivity(intent)
 
         }
         this.jogada.mosca = moscas
@@ -131,6 +151,18 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
 
     }
 
+    private fun ganhou() {
+        pauseTimer()
+        binding.textNumeroAleatorio.text = numAleatorio
+        val tempo: Int = (binding.timerTextView.text.toString().replace(":", "")).toInt()
+        var numJogadas: Int = (lista.size + 1) * 1000
+        numJogadas = 20000 - numJogadas
+        val pontuacao: Int = numJogadas + tempo
+        Toast.makeText(this, String.format(pontuacao.toString()), Toast.LENGTH_SHORT).show()
+        binding.textNumeroAleatorio.text = binding.textJogada.text
+
+    }
+
     private fun startTimer() {
 
         val intent = Intent(this, GamerOverActivity::class.java)
@@ -150,6 +182,8 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
                 timerRunning = false
                 updateCountDownText()
                 binding.timerTextView.text = "Time's up!"
+                binding.bntConferir.visibility = VISIBLE
+                binding.teclado.root.visibility = GONE
                 startActivity(intent)
             }
         }.start()
@@ -160,7 +194,7 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         val minutes = (timeLeftInMillis / 1000) / 60
         val seconds = (timeLeftInMillis / 1000) % 60
         val milliseconds = (timeLeftInMillis % 1000) / 10
-        val timeFormatted = String.format("%02d:%02d.%02d", minutes, seconds, milliseconds)
+        val timeFormatted = String.format("%02d:%02d:%02d", minutes, seconds, milliseconds)
         binding.timerTextView.text = timeFormatted
     }
 
@@ -198,7 +232,11 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         super.onDestroy()
         mediaPlayer?.release()
         mediaPlayer = null
+        pauseTimer()
+        Log.d("teste", "destroi")
     }
+
+
 
     override fun onClick(p0: View?) {
         jogada(p0 as Button)

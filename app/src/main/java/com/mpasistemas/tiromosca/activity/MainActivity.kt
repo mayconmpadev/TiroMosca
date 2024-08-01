@@ -4,14 +4,21 @@ package com.mpasistemas.tiromosca.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.mpasistemas.tiromosca.R
 import com.mpasistemas.tiromosca.databinding.ActivityMainBinding
+import com.mpasistemas.tiromosca.databinding.DialogPadraoOkCancelarBinding
 import com.mpasistemas.tiromosca.modelo.Usuario
+import com.mpasistemas.tiromosca.util.Util
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+    private var dialog: AlertDialog? = null
     private val autenticacao by lazy {
         FirebaseAuth.getInstance()
 
@@ -47,11 +54,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.llTorneio.setOnClickListener() {
 
-                val intent = Intent(this, RankingActivity::class.java)
-                intent.putExtra("usuario",usuario)
-                startActivity(intent)
+            val intent = Intent(this, RankingActivity::class.java)
+            intent.putExtra("usuario", usuario)
+            startActivity(intent)
 
-            }
+        }
 
 
         binding.llAjuda.setOnClickListener() {
@@ -63,11 +70,11 @@ class MainActivity : AppCompatActivity() {
             if (autenticacao.currentUser != null) {
                 //  val intent = Intent(this, PraticarActivity::class.java)
                 //  startActivity(intent)
-                autenticacao.signOut()
-                binding.btnLogin.text = "L O G I N"
+                dialogSair(usuario.nome)
             } else {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
+                finish()
             }
 
         }
@@ -85,9 +92,44 @@ class MainActivity : AppCompatActivity() {
                 var usuario = documento.toObject(Usuario::class.java)
                 if (usuario != null) {
                     this.usuario = usuario
-                    Toast.makeText(this, "Bem vindo ${this.usuario.nome}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Bem vindo ${this.usuario.nome}", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
+    }
+
+    private fun dialogSair(nome: String) {
+
+        val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+
+        val dialogBinding: DialogPadraoOkCancelarBinding = DialogPadraoOkCancelarBinding
+            .inflate(LayoutInflater.from(this))
+dialogBinding.textTitulo.text = "Logoff"
+        Util.textoNegrito(
+            "*" + nome + "*" + "! Deseja fazer logoff " + "?",
+            dialogBinding.textMsg,
+            null
+        )
+
+        dialogBinding.btnDireita.setOnClickListener { view ->
+            autenticacao.signOut()
+            binding.btnLogin.text = "L O G I N"
+            dialog!!.dismiss()
+        }
+
+        dialogBinding.btnEsquerda.setOnClickListener { view ->
+
+            dialog!!.dismiss()
+        }
+
+        builder.setView(dialogBinding.getRoot())
+        dialog = builder.create()
+        dialog!!.show()
+
+        dialog!!.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.8).toInt(),  // 80% da largura da tela
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
     }
 }
