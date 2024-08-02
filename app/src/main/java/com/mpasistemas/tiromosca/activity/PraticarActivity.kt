@@ -6,17 +6,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.OnClickListener
 import android.view.View.VISIBLE
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mpasistemas.tiromosca.R
 import com.mpasistemas.tiromosca.adapter.jogadasAdapter
 import com.mpasistemas.tiromosca.databinding.ActivityPraticarBinding
+import com.mpasistemas.tiromosca.databinding.DialogGanhouBinding
+import com.mpasistemas.tiromosca.databinding.DialogPadraoOkCancelarBinding
 import com.mpasistemas.tiromosca.modelo.Jogadas
 import com.mpasistemas.tiromosca.modelo.Torneio
 import com.mpasistemas.tiromosca.util.Util
@@ -24,11 +29,12 @@ import java.util.Date
 
 class PraticarActivity : AppCompatActivity(), OnClickListener {
     private lateinit var binding: ActivityPraticarBinding
+    lateinit var dialog: AlertDialog
     private lateinit var timer: CountDownTimer
     private lateinit var countDownTimer: CountDownTimer
     lateinit var adapter: jogadasAdapter;
     private var repeatTimer: CountDownTimer? = null
-    private var timeLeftInMillis: Long = 100000 // 10 minutos em milissegundos
+    private var timeLeftInMillis: Long = 300000 // 10 minutos em milissegundos
     private var tenSecondsWarningShown = false
     private var timerRunning = false
     var apertados: ArrayList<Button> = ArrayList()
@@ -55,7 +61,7 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         binding.teclado.btn8.setOnClickListener(this)
         binding.teclado.btn9.setOnClickListener(this)
 
-        binding.bntConferir.setOnClickListener(){
+        binding.bntConferir.setOnClickListener() {
             finish()
         }
 
@@ -102,6 +108,7 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
             binding.teclado.btnSalvar.visibility = View.VISIBLE
         }
     }
+
     fun apagar() {
         binding.textJogada.text = ""
         binding.teclado.btnSalvar.visibility = INVISIBLE
@@ -111,6 +118,7 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         }
         apertados.clear()
     }
+
     fun mosca(jogada: String) {
         var moscas = ""
         for (i in 0..3) {
@@ -135,6 +143,7 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
 
         tiro(jogada)
     }
+
     fun tiro(jogada: String) {
         var tiros = ""
         for (i in 0..3) {
@@ -146,7 +155,7 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         }
         this.jogada.mosca += tiros
         lista.add(this.jogada)
-       binding.rvJogadas.scrollToPosition(adapter.itemCount - 1)
+        binding.rvJogadas.scrollToPosition(adapter.itemCount - 1)
 
 
     }
@@ -160,33 +169,35 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         val pontuacao: Int = numJogadas + tempo
         Toast.makeText(this, String.format(pontuacao.toString()), Toast.LENGTH_SHORT).show()
         binding.textNumeroAleatorio.text = binding.textJogada.text
+        dialogSair(pontuacao.toString())
 
     }
 
     private fun startTimer() {
 
         val intent = Intent(this, GamerOverActivity::class.java)
-        countDownTimer = object : CountDownTimer(timeLeftInMillis, 10) { // Atualiza a cada 10 milissegundos
-            override fun onTick(millisUntilFinished: Long) {
-                timeLeftInMillis = millisUntilFinished
-                updateCountDownText()
+        countDownTimer =
+            object : CountDownTimer(timeLeftInMillis, 10) { // Atualiza a cada 10 milissegundos
+                override fun onTick(millisUntilFinished: Long) {
+                    timeLeftInMillis = millisUntilFinished
+                    updateCountDownText()
 
-                // Verificar se faltam 10 segundos
-                if (timeLeftInMillis <= 10000 && !tenSecondsWarningShown) {
-                    onTenSecondsLeft()
-                    tenSecondsWarningShown = true
+                    // Verificar se faltam 10 segundos
+                    if (timeLeftInMillis <= 10000 && !tenSecondsWarningShown) {
+                        onTenSecondsLeft()
+                        tenSecondsWarningShown = true
+                    }
                 }
-            }
 
-            override fun onFinish() {
-                timerRunning = false
-                updateCountDownText()
-                binding.timerTextView.text = "Time's up!"
-                binding.bntConferir.visibility = VISIBLE
-                binding.teclado.root.visibility = GONE
-                startActivity(intent)
-            }
-        }.start()
+                override fun onFinish() {
+                    timerRunning = false
+                    updateCountDownText()
+                    binding.timerTextView.text = "Time's up!"
+                    binding.bntConferir.visibility = VISIBLE
+                    binding.teclado.root.visibility = GONE
+                    startActivity(intent)
+                }
+            }.start()
         timerRunning = true;
     }
 
@@ -207,12 +218,13 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
     private fun onTenSecondsLeft() {
         // Ação quando faltam 10 segundos
         Toast.makeText(this, "Faltam 10 segundos!", Toast.LENGTH_SHORT).show()
-       // playSound(R.raw.bip_1)
+        // playSound(R.raw.bip_1)
     }
+
     private fun startRepeatSound() {
         repeatTimer = object : CountDownTimer(10000, 1000) { // 10 segundos, tocando a cada segundo
             override fun onTick(millisUntilFinished: Long) {
-              //  playSound(R.raw.bip_1)
+                //  playSound(R.raw.bip_1)
             }
 
             override fun onFinish() {
@@ -220,7 +232,6 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
             }
         }.start()
     }
-
 
 
     private fun playSound(soundResId: Int) {
@@ -236,6 +247,40 @@ class PraticarActivity : AppCompatActivity(), OnClickListener {
         Log.d("teste", "destroi")
     }
 
+    private fun dialogSair(pontos: String) {
+
+        val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+
+        val dialogBinding: DialogGanhouBinding = DialogGanhouBinding
+            .inflate(LayoutInflater.from(this))
+        dialogBinding.textPontuacao.text = pontos
+
+
+        dialogBinding.btnPraticar.setOnClickListener { view ->
+            val intent = Intent(this, PraticarActivity::class.java)
+            startActivity(intent)
+            finish()
+            dialog!!.dismiss()
+
+        }
+
+        dialogBinding.btnInicio.setOnClickListener { view ->
+
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            dialog!!.dismiss()
+        }
+
+        builder.setView(dialogBinding.getRoot())
+        dialog = builder.create()
+        dialog!!.show()
+
+        dialog!!.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.8).toInt(),  // 80% da largura da tela
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+    }
 
 
     override fun onClick(p0: View?) {

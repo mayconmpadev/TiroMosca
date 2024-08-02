@@ -41,15 +41,14 @@ class RankingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        recuperarIntent()
         configRVUsuarios()
         monitoraraUsuario()
 
         binding.btnInicio.setOnClickListener() {
             if (autenticacao.currentUser != null) {
                 val intent = Intent(this, TorneioActivity::class.java)
-                intent.putExtra("usuario", usuario)
                 startActivity(intent)
+                finish()
             }else{
                 Toast.makeText(this, "Para jogar no Torneio faça Login", Toast.LENGTH_LONG).show()
             }
@@ -58,10 +57,7 @@ class RankingActivity : AppCompatActivity() {
 
     }
 
-    fun recuperarIntent() {
 
-        usuario = intent.getParcelableExtra<Usuario>("usuario")
-    }
 
     fun configRVUsuarios() {
         binding.rvRanking.layoutManager = LinearLayoutManager(this)

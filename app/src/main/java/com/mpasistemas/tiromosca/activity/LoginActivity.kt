@@ -19,6 +19,7 @@ import com.br.jafapps.bdfirestore.util.DialogProgress
 import com.google.firebase.auth.FirebaseAuth
 import com.mpasistemas.tiromosca.R
 import com.mpasistemas.tiromosca.databinding.ActivityLoginBinding
+import com.mpasistemas.tiromosca.modelo.Usuario
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -32,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        recuperarIntent()
         binding.btnEntrar.setOnClickListener {
             if (binding.editEmail.text.isNotEmpty() && binding.editSenha.text.isNotEmpty()) {
                 logar(binding.editEmail.text, binding.editSenha.text)
@@ -76,6 +78,7 @@ class LoginActivity : AppCompatActivity() {
         binding.llCadastroUsuario.setOnClickListener() {
             val intent = Intent(this, CadastroActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         // Adicionar callback para o botão de voltar
@@ -86,6 +89,16 @@ class LoginActivity : AppCompatActivity() {
                 finish()
             }
         })
+    }
+
+    fun recuperarIntent() {
+        val intent: Intent? = getIntent()
+      if (intent!= null){
+          val email = intent.getStringExtra("email")
+          binding.editEmail.setText(email)
+      }
+
+
     }
 
     private fun shouldHandleBackPress(): Boolean {

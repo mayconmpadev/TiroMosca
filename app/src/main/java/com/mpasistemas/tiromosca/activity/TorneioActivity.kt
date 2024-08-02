@@ -4,13 +4,17 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.OnClickListener
 import android.view.View.VISIBLE
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.br.jafapps.bdfirestore.util.DialogProgress
@@ -19,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.mpasistemas.tiromosca.R
 import com.mpasistemas.tiromosca.adapter.jogadasAdapter
 import com.mpasistemas.tiromosca.databinding.ActivityTorneioBinding
+import com.mpasistemas.tiromosca.databinding.DialogGanhouBinding
 import com.mpasistemas.tiromosca.modelo.Jogadas
 import com.mpasistemas.tiromosca.modelo.Torneio
 import com.mpasistemas.tiromosca.modelo.Usuario
@@ -33,6 +38,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
     private val bancoFirestore by lazy {
         FirebaseFirestore.getInstance()
     }
+    lateinit var dialog: AlertDialog
     private lateinit var binding: ActivityTorneioBinding
     private lateinit var countDownTimer: CountDownTimer
     private var repeatTimer: CountDownTimer? = null
@@ -44,6 +50,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
     var lista: ArrayList<Jogadas> = ArrayList()
     lateinit var jogada: Jogadas
     var usuario: Usuario? = null
+    var torneio: Torneio? = null
     private var mediaPlayer: MediaPlayer? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +59,8 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         if (!timerRunning) {
             startTimer()
         }
-        recuperarIntent()
+        //   recuperarIntent()
+        obterUsuario()
 
         binding.teclado.btn0.setOnClickListener(this)
         binding.teclado.btn1.setOnClickListener(this)
@@ -71,6 +79,9 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
             apagar()
         }
 
+        binding.bntConferir.setOnClickListener() {
+
+        }
         binding.teclado.btnSalvar.setOnClickListener {
             // playSound(R.raw.bip_2)
 
@@ -88,7 +99,6 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
     }
 
     fun recuperarIntent() {
-
         usuario = intent.getParcelableExtra<Usuario>("usuario")
     }
 
@@ -155,7 +165,12 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         torneio.pontos = pontuacao
         torneio.data = Date()
 
-        salvarDados(torneio)
+        if (torneio.pontos < pontuacao) {
+            salvarDados(torneio)
+        } else {
+            dialogPontos(pontuacao.toString())
+        }
+
     }
 
     fun tiro(jogada: String) {
@@ -261,11 +276,81 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
 
     }
 
+    fun obterUsuario() {
+
+        val caminho =
+            bancoFirestore.collection("usuarios").document(autenticacao.currentUser?.uid.toString())
+
+        caminho.get().addOnSuccessListener { documento ->
+            if (documento.exists()) {
+                var usuario = documento.toObject(Usuario::class.java)
+                if (usuario != null) {
+                    this.usuario = usuario
+                    obterPontuacao()
+
+                }
+            }
+        }
+    }
+
+    fun obterPontuacao() {
+
+        val caminho =
+            bancoFirestore.collection("torneio").document(autenticacao.currentUser?.uid.toString())
+
+        caminho.get().addOnSuccessListener { documento ->
+            if (documento.exists()) {
+                var torneio = documento.toObject(Torneio::class.java)
+                if (torneio != null) {
+                    this.torneio = torneio
+
+                }
+            }
+        }
+    }
+
+    private fun dialogPontos(pontos: String) {
+
+        val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+
+        val dialogBinding: DialogGanhouBinding = DialogGanhouBinding
+            .inflate(LayoutInflater.from(this))
+        dialogBinding.textPontuacao.text = pontos
+
+
+        dialogBinding.btnPraticar.setOnClickListener { view ->
+            val intent = Intent(this, TorneioActivity::class.java)
+            startActivity(intent)
+            finish()
+            dialog!!.dismiss()
+
+        }
+
+        dialogBinding.btnInicio.setOnClickListener { view ->
+
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            dialog!!.dismiss()
+        }
+
+        builder.setView(dialogBinding.getRoot())
+        dialog = builder.create()
+        dialog!!.show()
+
+        dialog!!.window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.8).toInt(),  // 80% da largura da tela
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer?.release()
+        pauseTimer()
         mediaPlayer = null
     }
+
 
     override fun onClick(p0: View?) {
         jogada(p0 as Button)
