@@ -162,10 +162,10 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         val torneio = Torneio()
         torneio.id = autenticacao.currentUser?.uid.toString()
         torneio.nome = usuario?.nome ?: "vazio"
-        torneio.pontos = pontuacao
         torneio.data = Date()
 
-        if (torneio.pontos < pontuacao) {
+        if (this.torneio!!.pontos < pontuacao) {
+            torneio.pontos = pontuacao
             salvarDados(torneio)
         } else {
             dialogPontos(pontuacao.toString())
@@ -330,7 +330,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
 
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-            finish()
+            finishAffinity()
             dialog!!.dismiss()
         }
 
