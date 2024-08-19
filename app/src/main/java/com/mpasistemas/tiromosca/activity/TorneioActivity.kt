@@ -42,7 +42,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
     private lateinit var binding: ActivityTorneioBinding
     private lateinit var countDownTimer: CountDownTimer
     private var repeatTimer: CountDownTimer? = null
-    private var timeLeftInMillis: Long = 300000 // 10 minutos em milissegundos
+    private var timeLeftInMillis: Long = 30000 // 10 minutos em milissegundos
     private var tenSecondsWarningShown = false
     private var timerRunning = false
     var apertados: ArrayList<Button> = ArrayList()
@@ -80,7 +80,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         }
 
         binding.bntConferir.setOnClickListener() {
-
+            finish()
         }
         binding.teclado.btnSalvar.setOnClickListener {
             // playSound(R.raw.bip_2)
@@ -168,6 +168,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
             torneio.pontos = pontuacao
             salvarDados(torneio)
         } else {
+            binding.teclado.root.visibility = GONE
             dialogPontos(pontuacao.toString())
         }
 
@@ -206,9 +207,10 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
                 override fun onFinish() {
                     timerRunning = false
                     updateCountDownText()
-                    binding.timerTextView.text = "Time's up!"
+                    binding.timerTextView.text = "Tempo esgotado!"
                     binding.bntConferir.visibility = VISIBLE
                     binding.teclado.root.visibility = GONE
+                    binding.textNumeroAleatorio.text = numAleatorio
                     startActivity(intent)
                 }
             }.start()
