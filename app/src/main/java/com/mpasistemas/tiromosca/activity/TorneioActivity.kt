@@ -113,7 +113,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
             binding.textJogada.text = binding.textJogada.text.toString() + button.text
             button.isEnabled = false
             button.setBackgroundResource(R.drawable.bg_redondo_apertado)
-            binding.teclado.btnSalvar.visibility = View.VISIBLE
+            binding.teclado.btnSalvar.visibility = VISIBLE
         }
     }
 
