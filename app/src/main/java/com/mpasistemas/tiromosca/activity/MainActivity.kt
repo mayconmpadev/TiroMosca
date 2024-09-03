@@ -8,13 +8,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mpasistemas.tiromosca.R
 import com.mpasistemas.tiromosca.databinding.ActivityMainBinding
 import com.mpasistemas.tiromosca.databinding.DialogPadraoOkCancelarBinding
 import com.mpasistemas.tiromosca.modelo.Usuario
+import com.mpasistemas.tiromosca.util.DailyTaskWorker
 import com.mpasistemas.tiromosca.util.Util
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -77,8 +82,30 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+agendarTarefaDiaria()
 
+    }
 
+    fun agendarTarefaDiaria() {
+        val agora = Calendar.getInstance()
+        val horaDeExecucao = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 17)
+            set(Calendar.MINUTE, 50)
+            set(Calendar.SECOND, 0)
+        }
+
+        // Calcula o atraso até a próxima execução
+        val delayInicial = if (horaDeExecucao.timeInMillis > agora.timeInMillis) {
+            horaDeExecucao.timeInMillis - agora.timeInMillis
+        } else {
+            horaDeExecucao.timeInMillis + TimeUnit.DAYS.toMillis(1) - agora.timeInMillis
+        }
+
+        val trabalhoDiario = PeriodicWorkRequestBuilder<DailyTaskWorker>(24, TimeUnit.HOURS)
+            .setInitialDelay(delayInicial, TimeUnit.MILLISECONDS)
+            .build()
+
+        WorkManager.getInstance().enqueue(trabalhoDiario)
     }
 
     fun obterUsuario() {

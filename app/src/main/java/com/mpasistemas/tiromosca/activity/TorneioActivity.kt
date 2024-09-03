@@ -42,7 +42,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
     private lateinit var binding: ActivityTorneioBinding
     private lateinit var countDownTimer: CountDownTimer
     private var repeatTimer: CountDownTimer? = null
-    private var timeLeftInMillis: Long = 30000 // 10 minutos em milissegundos
+    private var timeLeftInMillis: Long = 300000 // 10 minutos em milissegundos
     private var tenSecondsWarningShown = false
     private var timerRunning = false
     var apertados: ArrayList<Button> = ArrayList()
@@ -73,7 +73,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         binding.teclado.btn8.setOnClickListener(this)
         binding.teclado.btn9.setOnClickListener(this)
 
-        //  binding.textNumeroAleatorio.text = numAleatorio
+          binding.textNumeroAleatorio.text = numAleatorio
 
         binding.teclado.btnApagar.setOnClickListener {
             apagar()
@@ -164,7 +164,7 @@ class TorneioActivity : AppCompatActivity(), OnClickListener {
         torneio.nome = usuario?.nome ?: "vazio"
         torneio.data = Date()
 
-        if (this.torneio!!.pontos < pontuacao) {
+        if (this.torneio?.pontos ?: 0 < pontuacao) {
             torneio.pontos = pontuacao
             salvarDados(torneio)
         } else {
