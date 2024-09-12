@@ -53,7 +53,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 // Dependencia de atualizacão automatica firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
 // Dependencia do firebase analytics
     implementation("com.google.firebase:firebase-analytics")
 
@@ -67,5 +67,9 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
 
     implementation("androidx.work:work-runtime-ktx:2.9.1")
+
+
+    implementation ("com.google.firebase:firebase-messaging:24.0.1") // Verifique se está usando a versão mais recente
+
 
 }

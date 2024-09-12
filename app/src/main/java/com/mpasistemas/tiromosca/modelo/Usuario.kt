@@ -7,6 +7,7 @@ import android.os.Parcelable
 data class Usuario(
 
     var id: String = "",
+    var token: String = "",
     var nome: String = "",
     var data: String = "",
     var status: String = "",
@@ -16,6 +17,7 @@ data class Usuario(
     var partidas: Int = 0,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?:"",
         parcel.readString() ?:"",
         parcel.readString() ?:"",
         parcel.readString() ?:"",
@@ -33,6 +35,7 @@ data class Usuario(
 
     override fun writeToParcel(parcel: Parcel, p1: Int) {
 parcel.writeString(id)
+parcel.writeString(token)
 parcel.writeString(nome)
 parcel.writeString(data)
 parcel.writeString(status)
